@@ -1,0 +1,3 @@
+<template>
+    <TaskForm />
+</template>
