@@ -50,9 +50,9 @@ const tickFormat = (tick: number) => user[tick]
 </script>
 
 <template>
-    <div class="px-5 m-auto">
+    <div class="m-auto">
         <VisXYContainer :data="data">
-            <VisStackedBar orientation="horizontal" :barPadding="0.2" :roundedCorners="true" :x="x" :y="y" :color="color" />
+            <VisStackedBar :roundedCorners="true" orientation="horizontal" :barPadding="0.2" :x="x" :y="y" :color="color" />
             <VisAxis type='x' label='Forecast hours / Maximum hours' />
             <VisAxis type='y' :tickFormat="tickFormat" />
         </VisXYContainer>
