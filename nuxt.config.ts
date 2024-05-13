@@ -13,4 +13,10 @@ export default defineNuxtConfig({
   nitro: {
     plugins: ['~/server/plugins/mongodb.ts'],
   },
+  runtimeConfig: {
+    // Will be available in both server and client
+    tokenSecret: process.env.TOKEN_SECRET,
+    tokenExpiration: process.env.TOKEN_EXPIRES,
+    tokenName: process.env.TOKEN_NAME
+  },
 })
