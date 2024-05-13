@@ -1,5 +1,6 @@
 <template>
     <div class="p-4 flex">
-        <NuxtPage />
+        <Header />
+        <NuxtPage class="p-4 mt-32"/>
     </div>
 </template>
