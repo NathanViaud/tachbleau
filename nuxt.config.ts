@@ -5,5 +5,6 @@ export default defineNuxtConfig({
   shadcn: {
     prefix: '',
     componentDir: './components/ui'
-  }
+  },
+  css: ["~/assets/css/typography.css"],
 })
