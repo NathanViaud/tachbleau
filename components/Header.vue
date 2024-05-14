@@ -13,20 +13,18 @@ import { SquareKanban, UsersRound, LogOut, Bell } from "lucide-vue-next"
             </router-link>
             <div class="flex flex-1 justify-end flex-row items-center gap-6 ">
                 <router-link to="/kanban">
-                    <Button variant="ghost" size="icon" class="w-16 h-16 rounded-full">
+                    <Button variant="ghost" size="icon" class="w-12 h-12 rounded-full">
                         <SquareKanban />
                     </Button>
                 </router-link>
                 <router-link to="/stafflist">
-                    <Button variant="ghost" size="icon" class="w-16 h-16 rounded-full">
+                    <Button variant="ghost" size="icon" class="w-12 h-12 rounded-full">
                         <UsersRound />
                     </Button>
                 </router-link>
-                <Button variant="ghost" size="icon" class="w-16 h-16 rounded-full">
-                        <PopoverNotifs />
-                    </Button>
+                <PopoverNotifs />
                 <router-link to="/logout">
-                    <Button variant="ghost" size="icon" class="w-16 h-16 rounded-full">
+                    <Button variant="ghost" size="icon" class="w-12 h-12 rounded-full">
                         <LogOut />
                     </Button>
                 </router-link>
