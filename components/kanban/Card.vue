@@ -2,6 +2,19 @@
 import type { Task } from '~/types';
 import { Card, CardHeader, CardContent, CardTitle } from '~/components/ui/card';
 import { Badge } from '~/components/ui/badge';
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet'
 
 defineProps<{
     task: Task;
@@ -18,19 +31,32 @@ const isPlural = (value: number) => value > 1 ? 'hours' : 'hour';
 </script>
 
 <template>
-   <Card>
-       <CardHeader class="p-4">
-           <CardTitle class="flex justify-between gap-2 items-center">
-               {{ task.title }}
-               <Badge :class="priorityColor[task.priority]">{{ task.priority }}</Badge>
-           </CardTitle>
-           <CardDescription class="flex w-full justify-between">
-               <p>{{ formatDate(task.deadline) }}</p>
-               <p>{{ task.duration }} {{ isPlural(task.duration) }}</p>
-           </CardDescription>
-       </CardHeader>
-       <CardContent class="p-4 pt-0">
-              <p>{{ task.description }}</p>
-       </CardContent>
-   </Card>
+    <Sheet>
+    <SheetTrigger as-child>
+        <Card class="cursor-pointer transition card hover:shadow">
+            <CardHeader class="p-4">
+                <CardTitle class="flex justify-between gap-2 items-center">
+                    {{ task.title }}
+                    <Badge :class="priorityColor[task.priority]">{{ task.priority }}</Badge>
+                </CardTitle>
+                <CardDescription class="flex w-full justify-between">
+                    <p>{{ formatDate(task.deadline) }}</p>
+                    <p>{{ task.duration }} {{ isPlural(task.duration) }}</p>
+                </CardDescription>
+            </CardHeader>
+            <CardContent class="p-4 pt-0">
+                    <p>{{ task.description }}</p>
+            </CardContent>
+        </Card>
+    </SheetTrigger>
+    <SheetContent>
+        <TaskForm />
+    </SheetContent>
+  </Sheet>
 </template>
+
+<style scoped>
+.card:hover {
+    transform: scale(1.025);
+}
+</style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SquareKanban, UsersRound, LogOut } from "lucide-vue-next"
+import { SquareKanban, UsersRound, LogOut, Bell } from "lucide-vue-next"
 </script>
 
 <template>
@@ -22,6 +22,9 @@ import { SquareKanban, UsersRound, LogOut } from "lucide-vue-next"
                         <UsersRound />
                     </Button>
                 </router-link>
+                <Button variant="ghost" size="icon" class="w-16 h-16 rounded-full">
+                        <PopoverNotifs />
+                    </Button>
                 <router-link to="/logout">
                     <Button variant="ghost" size="icon" class="w-16 h-16 rounded-full">
                         <LogOut />
