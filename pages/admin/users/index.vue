@@ -37,7 +37,7 @@ import { Button } from '@/components/ui/button'
                     <TableCell class="text-center">
                         <div>
                             <Button variant="destructive" class="m-1"> <Trash2/></Button>
-                            <Button><Pencil color="white" class="m-1" /></Button>
+                            <Button><Pencil class="m-1" /></Button>
                         </div>
                     </TableCell>
                 </TableRow>

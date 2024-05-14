@@ -34,7 +34,6 @@ const onSubmit = form.handleSubmit((values) => {
 
 <template>
     <form @submit="onSubmit" class="flex flex-col gap-4 w-full mx-auto max-w-2xl">
-        <h1 class="text-center">Create a task</h1>
         <FormField v-slot="{ componentField }" name="title">
             <FormItem>
                 <FormLabel>Title</FormLabel>
