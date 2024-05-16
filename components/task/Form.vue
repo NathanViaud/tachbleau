@@ -1,17 +1,11 @@
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod';
-import * as z from 'zod';
 import { useForm } from 'vee-validate';
 import { Textarea } from '~/components/ui/textarea';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select';
+import { taskSchema } from '~/schema';
 
-const formSchema = toTypedSchema(z.object({
-    title: z.string().min(3).max(255),
-    description: z.string().optional(),
-    duration: z.number().min(1).max(1000),
-    priority: z.enum(['low', 'medium', 'high']),
-    deadline: z.any(),
-}));
+const formSchema = toTypedSchema(taskSchema);
 
 const form = useForm({
     validationSchema: formSchema,
