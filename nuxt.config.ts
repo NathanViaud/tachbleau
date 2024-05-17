@@ -7,4 +7,7 @@ export default defineNuxtConfig({
     componentDir: './components/ui'
   },
   css: ["~/assets/css/typography.css"],
+  nitro: {
+    plugins: ['~/server/plugins/mongodb.ts'],
+  },
 })
