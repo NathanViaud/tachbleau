@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { ObjectId } from 'mongodb';
+// @ts-ignore
 import uniqueValidator from 'mongoose-unique-validator';
 
 const projectSchema = new mongoose.Schema({

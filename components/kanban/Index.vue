@@ -1,26 +1,15 @@
 <script setup lang="ts">
-import type { Task } from '~/types';
+import { useTasks } from '~/stores/tasks.store';
 
-const props = defineProps<{
-    tasks: Task[];
-}>();
-
-const todo = props.tasks.filter((task) => task.status === 'todo');
-const doing = props.tasks.filter((task) => task.status === 'doing');
-const done = props.tasks.filter((task) => task.status === 'done');
-const backlog = props.tasks.filter((task) => task.status === 'backlog');
-
-const columns = [
-    { name: 'Backlog', tasks: backlog },
-    { name: 'Todo', tasks: todo },
-    { name: 'Doing', tasks: doing },
-    { name: 'Done', tasks: done },
-];
+const tasksStore = useTasks();
 
 </script>
 
 <template>
     <div class="flex gap-8 w-full px-8">
-        <KanbanColumn v-for="column of columns" :name="column.name" :tasks="column.tasks" />
+        <KanbanColumn name="Backlog" :tasks="tasksStore.backlog" />
+        <KanbanColumn name="Todo" :tasks="tasksStore.todo" />
+        <KanbanColumn name="Doing" :tasks="tasksStore.doing" />
+        <KanbanColumn name="Done" :tasks="tasksStore.done" />
     </div>
 </template>

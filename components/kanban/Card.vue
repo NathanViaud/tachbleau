@@ -2,19 +2,16 @@
 import type { Task } from '~/types';
 import { Card, CardHeader, CardContent, CardTitle } from '~/components/ui/card';
 import { Badge } from '~/components/ui/badge';
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetClose,
+    SheetTrigger,
 } from '@/components/ui/sheet'
+
+import TaskFormComponent from '~/components/task/Form.vue';
 
 defineProps<{
     task: Task;
@@ -27,6 +24,14 @@ const priorityColor = {
 };
 
 const isPlural = (value: number) => value > 1 ? 'hours' : 'hour';
+
+const taskForm: Ref<InstanceType<typeof TaskFormComponent> | null> = ref(null);
+
+function onSubmit() {
+    if(!taskForm.value) return;
+
+    taskForm.value.onSubmit();
+}
 
 </script>
 
@@ -51,12 +56,16 @@ const isPlural = (value: number) => value > 1 ? 'hours' : 'hour';
         </SheetTrigger>
 
         <SheetContent class="max-w-2xl w-full sm:max-w-2xl flex flex-col gap-3">
-        <SheetHeader>
-            <SheetTitle>Edit Task</SheetTitle>
-        </SheetHeader>
-        <TaskForm class="w-full" />
-    </SheetContent>
-  </Sheet>
+            <SheetHeader>
+                <SheetTitle>Edit Task</SheetTitle>
+            </SheetHeader>
+
+            <TaskForm ref="taskForm" :task="task" :inside-sheet="true" class="w-full" />
+            <SheetClose as-child>
+                <Button @click="onSubmit" type="submit">Submit</Button>
+            </SheetClose>
+        </SheetContent>
+    </Sheet>
 </template>
 
 <style scoped>
