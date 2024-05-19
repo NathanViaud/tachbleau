@@ -3,23 +3,30 @@ import { createTask, getTasks, updateTask } from '~/services';
 
 interface TasksState {
     tasks: Task[];
+    backlog: Task[];
+    todo: Task[];
+    doing: Task[];
+    done: Task[];
 }
 
 export const useTasks = defineStore('tasks', {
     state: (): TasksState => ({
-        tasks: []
+        tasks: [],
+        
+        // These list are managed by vue draggable
+        backlog: [],
+        todo: [],
+        doing: [],
+        done: []
     }),
-    
-    getters: {
-        doing: (state) => state.tasks.filter((task) => task.status === 'doing'),
-        done: (state) => state.tasks.filter((task) => task.status === 'done'),
-        todo: (state) => state.tasks.filter((task) => task.status === 'todo'),
-        backlog: (state) => state.tasks.filter((task) => task.status === 'backlog')
-    },
-    
     actions: {
         async fetchTasks() {
             this.tasks = await getTasks();
+            
+            this.backlog = this.tasks.filter((task) => task.status === 'backlog');
+            this.todo = this.tasks.filter((task) => task.status === 'todo');
+            this.doing = this.tasks.filter((task) => task.status === 'doing');
+            this.done = this.tasks.filter((task) => task.status === 'done');
         },
         
         async addTask(task: TaskForm) {
@@ -33,6 +40,15 @@ export const useTasks = defineStore('tasks', {
             const index = this.tasks.findIndex((task) => task._id === id);
             
             this.tasks[index] = updatedTask;
+        },
+        
+        async updateTaskStatus(id: string, status: Task['status']) {
+            const task = this.tasks.find((task) => task._id === id);
+
+            if (task) {
+                await updateTask({ ...task, status }, id);
+            }
+
         },
     }
 })

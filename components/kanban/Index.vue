@@ -1,15 +1,29 @@
 <script setup lang="ts">
-import { useTasks } from '~/stores/tasks.store';
+import type { Task } from '~/types';
 
-const tasksStore = useTasks();
+defineProps<{
+    columns: {
+        tasks: Task[],
+        status: Task['status'];
+        name: string;
+    }[]
+}>();
+
+const emits = defineEmits<{
+    (e: 'added', data: { id: string, status: Task['status']}): void;
+}>();
 
 </script>
 
 <template>
-    <div class="flex gap-8 w-full px-8">
-        <KanbanColumn name="Backlog" :tasks="tasksStore.backlog" />
-        <KanbanColumn name="Todo" :tasks="tasksStore.todo" />
-        <KanbanColumn name="Doing" :tasks="tasksStore.doing" />
-        <KanbanColumn name="Done" :tasks="tasksStore.done" />
+    <div class="flex flex-col gap-4">
+        <div class="flex gap-8 w-full">
+            <KanbanColumn
+                v-for="column of columns"
+                :name="column.name"
+                :tasks="column.tasks"
+                @added="emits('added', { id: $event, status: column.status })"
+            />
+        </div>
     </div>
 </template>
