@@ -2,37 +2,50 @@ import type { Task, TaskForm } from '~/types';
 import { createTask, getTasks, updateTask } from '~/services';
 
 interface TasksState {
-    tasks: Task[];
+    backlog: Task[];
+    todo: Task[];
+    doing: Task[];
+    done: Task[];
 }
 
 export const useTasks = defineStore('tasks', {
     state: (): TasksState => ({
-        tasks: []
+        // These list are managed by vue draggable
+        backlog: [],
+        todo: [],
+        doing: [],
+        done: []
     }),
-    
-    getters: {
-        doing: (state) => state.tasks.filter((task) => task.status === 'doing'),
-        done: (state) => state.tasks.filter((task) => task.status === 'done'),
-        todo: (state) => state.tasks.filter((task) => task.status === 'todo'),
-        backlog: (state) => state.tasks.filter((task) => task.status === 'backlog')
-    },
-    
     actions: {
         async fetchTasks() {
-            this.tasks = await getTasks();
+            const tasks = await getTasks();
+            
+            this.backlog = tasks.filter((task) => task.status === 'backlog');
+            this.todo = tasks.filter((task) => task.status === 'todo');
+            this.doing = tasks.filter((task) => task.status === 'doing');
+            this.done = tasks.filter((task) => task.status === 'done');
         },
         
         async addTask(task: TaskForm) {
             const newTask = await createTask(task);
             
-            this.tasks.push(newTask);
+            this[newTask.status].push(newTask);
         },
         
         async updateTask(task: TaskForm, id: string) {
             const updatedTask = await updateTask(task, id);
-            const index = this.tasks.findIndex((task) => task._id === id);
             
-            this.tasks[index] = updatedTask;
+            const index = this[task.status].findIndex((task) => task._id === id);
+            this[updatedTask.status][index] = updatedTask;
+        },
+        
+        async updateTaskStatus(id: string, status: Task['status']) {
+            const task = this[status].find((task) => task._id === id);
+
+            if (task) {
+                await updateTask({ ...task, status }, id);
+            }
+
         },
     }
 })

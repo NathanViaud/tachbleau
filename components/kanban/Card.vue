@@ -38,7 +38,7 @@ function onSubmit() {
 <template>
     <Sheet>
         <SheetTrigger as-child>
-            <Card class="cursor-pointer transition card hover:shadow">
+            <Card class="cursor-grab transition card hover:shadow">
                 <CardHeader class="p-4">
                     <CardTitle class="flex justify-between gap-2 items-center">
                         {{ task.title }}
@@ -55,7 +55,7 @@ function onSubmit() {
             </Card>
         </SheetTrigger>
 
-        <SheetContent class="max-w-2xl w-full sm:max-w-2xl flex flex-col gap-3">
+        <SheetContent class="max-w-xl w-full sm:max-w-xl flex flex-col gap-3">
             <SheetHeader>
                 <SheetTitle>Edit Task</SheetTitle>
             </SheetHeader>
