@@ -16,6 +16,11 @@ export const useTasks = defineStore('tasks', {
         doing: [],
         done: []
     }),
+    
+    getters: {
+        tasks: (state) => [...state.backlog, ...state.todo, ...state.doing, ...state.done]
+    },
+    
     actions: {
         async fetchTasks() {
             const tasks = await getTasks();
@@ -33,19 +38,28 @@ export const useTasks = defineStore('tasks', {
         },
         
         async updateTask(task: TaskForm, id: string) {
+            const oldStatus: Task['status'] | undefined = this.tasks.find((task) => task._id === id)?.status;
             const updatedTask = await updateTask(task, id);
             
             const index = this[task.status].findIndex((task) => task._id === id);
+            
+            // Update the lists when updating task status from the form
+            if (oldStatus && oldStatus !== updatedTask.status) {
+                this[oldStatus].splice(index, 1);
+                this[updatedTask.status].push(updatedTask);
+            }
+            
             this[updatedTask.status][index] = updatedTask;
         },
         
         async updateTaskStatus(id: string, status: Task['status']) {
-            const task = this[status].find((task) => task._id === id);
+            const index = this[status].findIndex((task) => task._id === id);
+            const task = this[status][index];
 
             if (task) {
-                await updateTask({ ...task, status }, id);
+                 await updateTask({ ...task, status }, id);
+                 task.status = status;
             }
-
         },
     }
 })

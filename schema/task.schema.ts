@@ -6,5 +6,5 @@ export const taskSchema = z.object({
     duration: z.number().min(1).max(1000),
     priority: z.enum(['low', 'medium', 'high']),
     deadline: z.any(),
-    status: z.enum(['done', 'doing', 'todo', 'backlog']).optional(),
+    status: z.enum(['done', 'doing', 'todo', 'backlog']),
 });

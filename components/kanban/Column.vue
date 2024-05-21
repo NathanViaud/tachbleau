@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import type { Task } from '~/types';
-import { Separator } from '~/components/ui/separator';
 import draggable from 'vuedraggable';
+import { Circle, CircleCheck, CircleDashed, Timer } from 'lucide-vue-next';
+import { ScrollArea } from '~/components/ui/scroll-area'
 
 defineProps<{
     name: 'Todo' | 'Doing' | 'Done' | 'Backlog';
+    status: Task['status'];
     tasks: Task[];
 }>();
 
@@ -25,16 +27,29 @@ function handleChange(evt: any) {
     }
 }
 
+function getStatusIcon(status: string) {
+    if(status === 'backlog') {
+        return CircleDashed;
+    } else if(status === 'todo') {
+        return Circle;
+    } else if(status === 'doing') {
+        return Timer;
+    } else {
+        return CircleCheck;
+    }
+}
+
 </script>
 
 <template>
-    <div class="flex flex-col gap-2 w-1/4">
-        <h2 class="text-center">{{ name }}</h2>
-
-        <Separator class="h-1 rounded" />
+    <ScrollArea class="flex flex-col gap-4 w-1/4 bg-muted/40 h-full p-2 rounded">
+        <div class="flex gap-2 items-center">
+            <component :is="getStatusIcon(status)" class="h-4 w-4" />
+            <h2>{{ name }}</h2>
+        </div>
 
         <draggable
-            class="flex flex-col gap-3 h-full"
+            class="flex flex-col gap-3 h-full mt-4"
             :list="tasks"
             item-key="_id"
             v-bind="dragOptions"
@@ -46,7 +61,7 @@ function handleChange(evt: any) {
                 </div>
             </template>
         </draggable>
-    </div>
+    </ScrollArea>
 </template>
 
 <style scoped>

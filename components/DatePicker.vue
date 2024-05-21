@@ -17,7 +17,8 @@ const df = new DateFormatter('en-US', {
 })
 
 const props = defineProps<{
-    modelValue?: DateValue
+    modelValue?: DateValue,
+    placeholder?: string
 }>();
 
 const emits = defineEmits<{
@@ -40,7 +41,7 @@ const modelValue = useVModel(props, 'modelValue', emits, {
         )"
       >
         <CalendarIcon class="mr-2 h-4 w-4" />
-        {{ modelValue ? df.format(modelValue.toDate(getLocalTimeZone())) : "Pick a date" }}
+        {{ modelValue ? df.format(modelValue.toDate(getLocalTimeZone())) : (placeholder || 'Pick a date') }}
       </Button>
     </PopoverTrigger>
     <PopoverContent class="w-auto p-0">

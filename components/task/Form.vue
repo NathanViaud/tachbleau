@@ -7,6 +7,7 @@ import { taskSchema } from '~/schema';
 import type { Task, TaskForm } from '~/types';
 import { dateToCalendar, calendarToDate } from '~/utils';
 import { useTasks } from '~/stores/tasks.store';
+import { Circle, CircleDashed, CircleCheck, Timer } from 'lucide-vue-next';
 
 const tasksStore = useTasks();
 
@@ -27,6 +28,7 @@ onMounted(() => {
     if(props.task) {
         form.setValues({
             title: props.task.title,
+            status: props.task.status,
             description: props.task.description,
             duration: props.task.duration,
             priority: props.task.priority,
@@ -38,7 +40,7 @@ onMounted(() => {
 const onSubmit = form.handleSubmit(async (values) => {
     const newTask: TaskForm = {
         title: values.title,
-        status: 'backlog',
+        status: values.status,
         description: values.description,
         duration: values.duration,
         priority: values.priority,
@@ -92,38 +94,80 @@ defineExpose({
             </FormItem>
         </FormField>
 
-        <FormField v-slot="{ componentField }" name="priority">
-            <FormItem>
-                <FormLabel>Priority</FormLabel>
-                <FormControl>
-                    <Select v-bind="componentField">
-                        <SelectTrigger>
-                            <SelectValue placeholder="Select a priority" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectLabel>Priority</SelectLabel>
-                                <SelectItem value="low">Low</SelectItem>
-                                <SelectItem value="medium">Medium</SelectItem>
-                                <SelectItem value="high">High</SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                </FormControl>
-                <FormMessage />
-            </FormItem>
-        </FormField>
+        <div class="flex gap-2 items-center mt-2">
+            <FormField v-slot="{ componentField }" name="status">
+                <FormItem>
+                    <FormControl>
+                        <Select v-bind="componentField">
+                            <SelectTrigger>
+                                <SelectValue placeholder="Status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup class="pr-1">
+                                    <SelectLabel>Status</SelectLabel>
+                                    <SelectItem value="backlog">
+                                        <p class="flex items-center gap-1">
+                                            <CircleDashed class="w-4 h-4" />
+                                            Backlog
+                                        </p>
+                                    </SelectItem>
+                                    <SelectItem value="todo">
+                                        <p class="flex items-center gap-1">
+                                            <Circle class="w-4 h-4" />
+                                            Todo
+                                        </p>
+                                    </SelectItem>
+                                    <SelectItem value="doing">
+                                        <p class="flex items-center gap-1">
+                                            <Timer class="w-4 h-4" />
+                                            Doing
+                                        </p>
+                                    </SelectItem>
+                                    <SelectItem value="done">
+                                        <p class="flex items-center gap-1">
+                                            <CircleCheck class="w-4 h-4" />
+                                            Done
+                                        </p>
+                                    </SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </FormControl>
+                    <FormMessage />
+                </FormItem>
+            </FormField>
 
-        <FormField v-slot="{ componentField }" name="deadline">
-            <FormItem>
-                <FormLabel>Deadline</FormLabel>
-                <FormControl>
-                    <DatePicker v-bind="componentField" />
-                </FormControl>
-                <FormMessage />
-            </FormItem>
-        </FormField>
+            <FormField v-slot="{ componentField }" name="priority">
+                <FormItem>
+                    <FormControl>
+                        <Select v-bind="componentField">
+                            <SelectTrigger>
+                                <SelectValue placeholder="Priority" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Priority</SelectLabel>
+                                    <SelectItem value="low">Low</SelectItem>
+                                    <SelectItem value="medium">Medium</SelectItem>
+                                    <SelectItem value="high">High</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </FormControl>
+                    <FormMessage />
+                </FormItem>
+            </FormField>
 
+            <FormField v-slot="{ componentField }" name="deadline">
+                <FormItem>
+                    <FormControl>
+                        <DatePicker v-bind="componentField" placeholder="Deadline" />
+                    </FormControl>
+                    <FormMessage />
+                </FormItem>
+            </FormField>
+
+        </div>
         <Button v-if="!insideSheet">
             Submit
         </Button>

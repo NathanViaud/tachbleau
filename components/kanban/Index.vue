@@ -16,12 +16,13 @@ const emits = defineEmits<{
 </script>
 
 <template>
-    <div class="flex flex-col gap-4">
-        <div class="flex gap-8 w-full">
+    <div class="flex flex-col gap-4 h-full">
+        <div class="flex gap-4 w-full h-full">
             <KanbanColumn
                 v-for="column of columns"
                 :name="column.name"
                 :tasks="column.tasks"
+                :status="column.status"
                 @added="emits('added', { id: $event, status: column.status })"
             />
         </div>
