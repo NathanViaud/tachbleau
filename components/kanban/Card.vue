@@ -80,7 +80,7 @@ const statusIcon = computed(() => {
 
             <TaskForm ref="taskForm" :task="task" :inside-sheet="true" class="w-full" />
             <SheetClose as-child>
-                <Button @click="onSubmit" type="submit">Submit</Button>
+                <Button @click="onSubmit" type="submit">Edit</Button>
             </SheetClose>
         </SheetContent>
     </Sheet>
