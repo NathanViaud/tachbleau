@@ -40,15 +40,17 @@ function onSubmit() {
         <SheetTrigger as-child>
             <Card class="cursor-grab transition card hover:shadow">
                 <CardHeader class="p-4">
-                    <CardTitle class="flex justify-between gap-2 items-center">
+                    <CardTitle class="flex justify-between gap-2 items-center text-xl">
                         {{ task.title }}
                         <Badge :class="priorityColor[task.priority]">{{ task.priority }}</Badge>
                     </CardTitle>
+
                     <CardDescription class="flex w-full justify-between">
                         <p>{{ formatDate(task.deadline) }}</p>
                         <p>{{ task.duration }} {{ isPlural(task.duration) }}</p>
                     </CardDescription>
                 </CardHeader>
+
                 <CardContent class="p-4 pt-0">
                         <p>{{ task.description }}</p>
                 </CardContent>
