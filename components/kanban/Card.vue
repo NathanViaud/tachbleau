@@ -35,7 +35,10 @@ function onSubmit() {
                 <CardHeader class="p-2 gap-1">
                     <CardTitle class="flex gap-2 items-center justify-between text-md font-normal">
                         <div class="flex gap-2 items-center">
-                            <component :is="STATUS_OBJ.find((item) => item.value === task.status)?.icon" class="h-4 w-4" />
+                            <Transition name="fade" mode="out-in">
+                                <component :is="STATUS_OBJ.find((item) => item.value === task.status)?.icon" class="h-4 w-4" />
+                            </Transition>
+
                             {{ task.title }}
                         </div>
                         <CircleUserRound v-if="task.status === 'backlog'" class="user-icon w-7 h-7 text-muted-foreground" />
@@ -76,5 +79,13 @@ function onSubmit() {
 <style scoped>
 .user-icon {
     stroke-width: 1.3;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .15s;
+}
+
+.fade-enter, .fade-leave-to {
+    opacity: 0;
 }
 </style>
