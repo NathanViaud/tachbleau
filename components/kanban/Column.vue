@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { Task } from '~/types';
+import { STATUS_OBJ, type Task } from '~/types';
 import draggable from 'vuedraggable';
-import { Circle, CircleCheck, CircleDashed, Timer } from 'lucide-vue-next';
 import { ScrollArea } from '~/components/ui/scroll-area'
+
+const tasksStore = useTasks();
 
 defineProps<{
     name: 'Todo' | 'Doing' | 'Done' | 'Backlog';
@@ -27,24 +28,12 @@ function handleChange(evt: any) {
     }
 }
 
-function getStatusIcon(status: string) {
-    if(status === 'backlog') {
-        return CircleDashed;
-    } else if(status === 'todo') {
-        return Circle;
-    } else if(status === 'doing') {
-        return Timer;
-    } else {
-        return CircleCheck;
-    }
-}
-
 </script>
 
 <template>
     <ScrollArea class="flex flex-col gap-4 w-1/4 bg-muted/40 h-full p-2 rounded">
         <div class="flex gap-2 items-center">
-            <component :is="getStatusIcon(status)" class="h-4 w-4" />
+            <component :is="STATUS_OBJ.find((item) => item.value === status)?.icon" class="h-4 w-4" />
             <h2>{{ name }}</h2>
         </div>
 
@@ -57,7 +46,7 @@ function getStatusIcon(status: string) {
         >
             <template #item="{ element }">
                 <div class="item">
-                    <KanbanCard :task="element" />
+                    <KanbanCard :task="element" v-if="tasksStore.passesFilters(element)" />
                 </div>
             </template>
         </draggable>

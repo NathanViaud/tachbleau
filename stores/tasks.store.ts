@@ -1,4 +1,4 @@
-import type { Task, TaskForm } from '~/types';
+import type { Filter, Task, TaskForm } from '~/types';
 import { createTask, getTasks, updateTask } from '~/services';
 
 interface TasksState {
@@ -6,6 +6,7 @@ interface TasksState {
     todo: Task[];
     doing: Task[];
     done: Task[];
+    filters: Filter;
 }
 
 export const useTasks = defineStore('tasks', {
@@ -14,11 +15,26 @@ export const useTasks = defineStore('tasks', {
         backlog: [],
         todo: [],
         doing: [],
-        done: []
+        done: [],
+        filters: {
+            search: '',
+            status: new Set(),
+            priority: new Set(),
+            assignee: new Set()
+        }
     }),
     
     getters: {
-        tasks: (state) => [...state.backlog, ...state.todo, ...state.doing, ...state.done]
+        tasks: (state) => [...state.backlog, ...state.todo, ...state.doing, ...state.done],
+        
+        isFiltersDefault: (state) => {
+            if (state.filters.search) return false;
+            if (state.filters.status.size) return false;
+            if (state.filters.priority.size) return false;
+            if (state.filters.assignee.size) return false;
+            
+            return true;
+        },
     },
     
     actions: {
@@ -61,5 +77,32 @@ export const useTasks = defineStore('tasks', {
                  task.status = status;
             }
         },
+        
+        resetFilters() {
+            this.filters.search = '';
+            this.filters.status.clear();
+            this.filters.priority.clear();
+            this.filters.assignee.clear();
+        },
+        
+        passesFilters(task: Task) {
+            if (this.filters.search && !task.title.toLowerCase().includes(this.filters.search.toLowerCase())) {
+                return false;
+            }
+            
+            if (this.filters.status.size && !this.filters.status.has(task.status)) {
+                return false;
+            }
+            
+            if (this.filters.priority.size && !this.filters.priority.has(task.priority)) {
+                return false;
+            }
+            
+            if (this.filters.assignee.size && !this.filters.assignee.has(task.assignee)) {
+                return false;
+            }
+            
+            return true;
+        }
     }
 })

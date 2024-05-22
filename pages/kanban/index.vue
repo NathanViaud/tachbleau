@@ -39,13 +39,16 @@ function handleAdded(data: { id: string, status: Task['status'] }) {
 
 <template>
     <div class="flex flex-col gap-4">
-        <h1 class="text-center">Tasks Board</h1>
-        <Button as-child class="w-fit self-end">
-            <RouterLink to="/tasks/create">
-                <Plus class="w-4 h-4 mr-2"/>
-                New task
-            </RouterLink>
-        </Button>
+        <h1 class="text-center">All Issues</h1>
+        <div class="flex gap-4 justify-between">
+            <TaskFilter />
+            <Button as-child size="sm" class="w-fit self-end">
+                <RouterLink to="/tasks/create">
+                    <Plus class="w-4 h-4 mr-2"/>
+                    New task
+                </RouterLink>
+            </Button>
+        </div>
         <Kanban :columns="columns" @added="handleAdded" />
     </div>
 </template>
