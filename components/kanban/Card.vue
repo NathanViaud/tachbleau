@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Task } from '~/types';
+import { STATUS_OBJ, type Task } from '~/types';
 import { Card, CardHeader, CardContent, CardTitle } from '~/components/ui/card';
 import { Calendar, ChevronUp, ChevronsUp, Minus } from 'lucide-vue-next';
 import {
@@ -10,7 +10,6 @@ import {
     SheetClose,
     SheetTrigger,
 } from '@/components/ui/sheet'
-import { Circle, Timer, CircleDashed, CircleCheck, CircleUserRound } from 'lucide-vue-next';
 
 import TaskFormComponent from '~/components/task/Form.vue';
 import { nameToColor, getRelativeDate } from '~/utils';
@@ -27,18 +26,6 @@ function onSubmit() {
     taskForm.value.onSubmit();
 }
 
-const statusIcon = computed(() => {
-    if(props.task.status === 'backlog') {
-        return CircleDashed;
-    } else if(props.task.status === 'todo') {
-        return Circle;
-    } else if(props.task.status === 'doing') {
-        return Timer;
-    } else {
-        return CircleCheck;
-    }
-});
-
 </script>
 
 <template>
@@ -48,7 +35,7 @@ const statusIcon = computed(() => {
                 <CardHeader class="p-2 gap-1">
                     <CardTitle class="flex gap-2 items-center justify-between text-md font-normal">
                         <div class="flex gap-2 items-center">
-                            <component :is="statusIcon" class="h-4 w-4" />
+                            <component :is="STATUS_OBJ.find((item) => item.value === task.status)?.icon" class="h-4 w-4" />
                             {{ task.title }}
                         </div>
                         <CircleUserRound v-if="task.status === 'backlog'" class="user-icon w-7 h-7 text-muted-foreground" />

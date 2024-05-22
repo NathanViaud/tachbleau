@@ -10,6 +10,7 @@ import {
     CommandSeparator
 } from '~/components/ui/command';
 import { cn } from '~/lib/utils';
+import { useVModel } from '@vueuse/core';
 
 interface Option {
     label: string;
@@ -17,22 +18,26 @@ interface Option {
     icon?: string;
 }
 
-defineProps<{
+const props = defineProps<{
     label: string;
     options: Option[];
+    modelValue: Set<string>;
 }>();
 
-const selected = ref(new Set());
-// const selectedValues = computed(() => new Set())
+const emit = defineEmits<{
+    (e: 'update:modelValue', value: Set<string>): void;
+}>();
+
+const selected = useVModel(props, 'modelValue', emit, {
+    passive: true,
+    defaultValue: new Set()
+});
 
 function selectItem(option: Option) {
     const isSelected = selected.value.has(option.value);
 
     if (isSelected) selected.value.delete(option.value);
     else selected.value.add(option.value);
-
-    // Filter values there
-    const filterValues = Array.from(selected.value);
 }
 
 </script>
