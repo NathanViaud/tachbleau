@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   colorMode: {
     classSuffix: ''
   },
-  css: ["~/assets/css/typography.css"],
+  css: ["~/assets/css/typography.css", "~/assets/css/base.css"],
   nitro: {
     plugins: ['~/server/plugins/mongodb.ts'],
   },

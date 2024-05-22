@@ -98,9 +98,9 @@ export const useTasks = defineStore('tasks', {
                 return false;
             }
             
-            if (this.filters.assignee.size && !this.filters.assignee.has(task.assignee)) {
-                return false;
-            }
+            // if (this.filters.assignee.size && !this.filters.assignee.has(task.assignee)) {
+            //     return false;
+            // }
             
             return true;
         }

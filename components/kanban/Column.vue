@@ -31,14 +31,14 @@ function handleChange(evt: any) {
 </script>
 
 <template>
-    <ScrollArea class="flex flex-col gap-4 w-1/4 bg-muted/40 h-full p-2 rounded">
+    <div class="flex flex-col gap-4 w-1/4 bg-muted/40 h-full p-3 rounded">
         <div class="flex gap-2 items-center">
             <component :is="STATUS_OBJ.find((item) => item.value === status)?.icon" class="h-4 w-4" />
             <h2>{{ name }}</h2>
         </div>
 
         <draggable
-            class="flex flex-col gap-3 h-full mt-4"
+            class="flex flex-grow flex-col gap-3 mt-4 overflow-y-auto"
             :list="tasks"
             item-key="_id"
             v-bind="dragOptions"
@@ -50,7 +50,7 @@ function handleChange(evt: any) {
                 </div>
             </template>
         </draggable>
-    </ScrollArea>
+    </div>
 </template>
 
 <style scoped>

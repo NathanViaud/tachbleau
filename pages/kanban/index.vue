@@ -38,7 +38,7 @@ function handleAdded(data: { id: string, status: Task['status'] }) {
 </script>
 
 <template>
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-4 h-full">
         <h1 class="text-center">All Issues</h1>
         <div class="flex gap-4 justify-between">
             <TaskFilter />
