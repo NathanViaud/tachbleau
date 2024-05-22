@@ -52,8 +52,8 @@ const statusIcon = computed(() => {
                             {{ task.title }}
                         </div>
                         <CircleUserRound v-if="task.status === 'backlog'" class="user-icon w-7 h-7 text-muted-foreground" />
-                        <Avatar v-else class="h-7 w-7" :style="`background-color: ${nameToColor('NathanViaud')}`">
-                            <AvatarFallback>NV</AvatarFallback>
+                        <Avatar v-else class="h-7 w-7" :style="`background-color: ${nameToColor('Nathan Viaud')}`">
+                            <AvatarFallback class="text-black">NV</AvatarFallback>
                         </Avatar>
                     </CardTitle>
 

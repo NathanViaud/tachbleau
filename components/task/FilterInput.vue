@@ -11,19 +11,21 @@ import {
 } from '~/components/ui/command';
 import { cn } from '~/lib/utils';
 
+interface Option {
+    label: string;
+    value: string;
+    icon?: string;
+}
+
 defineProps<{
     label: string;
-    options: {
-        label: string;
-        value: string;
-        icon?: string;
-    }[]
+    options: Option[];
 }>();
 
 const selected = ref(new Set());
 // const selectedValues = computed(() => new Set())
 
-function selectItem(option: { label: string, value: string, icon?: string }) {
+function selectItem(option: Option) {
     const isSelected = selected.value.has(option.value);
 
     if (isSelected) selected.value.delete(option.value);
@@ -111,7 +113,7 @@ function selectItem(option: { label: string, value: string, icon?: string }) {
                             <CommandItem
                                 :value="{ label: 'Clear filters' }"
                                 class="justify-center text-center"
-                                @select="selected = new Set()"
+                                @select="selected.clear()"
                             >
                                 Clear filters
                             </CommandItem>

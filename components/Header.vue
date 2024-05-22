@@ -1,9 +1,16 @@
 <script setup lang="ts">
-import { SquareKanban, UsersRound, LogOut, Bell } from "lucide-vue-next"
+import { SquareKanban, UsersRound, LogOut, Sun, Moon } from "lucide-vue-next"
+
+const colorMode = useColorMode();
+
+function toggleColorMode() {
+    colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark';
+}
+
 </script>
 
 <template>
-    <header class="border-b-2 border-b-gray-200 pt-2 pb-3 px-3 align-center bg w-full fixed z-10 top-0 backdrop-blur-lg bg-white/50">
+    <header class="border-b-2 border-b-muted pt-2 pb-3 px-3 align-center bg w-full fixed z-10 top-0 backdrop-blur-lg">
         <div class="flex flex-row gap-5">
             <router-link to="/dashboard" class="flex flex-row gap-2">
                 <img class="h-16 rounded-xl" src="" alt="">
@@ -28,6 +35,11 @@ import { SquareKanban, UsersRound, LogOut, Bell } from "lucide-vue-next"
                         <LogOut />
                     </Button>
                 </router-link>
+
+                <Button @click="toggleColorMode" variant="ghost" size="icon" class="h-12 w-12 rounded-full transition">
+                    <Sun v-if="colorMode.value === 'dark'" />
+                    <Moon v-else />
+                </Button>
             </div>
         </div>
     </header>
