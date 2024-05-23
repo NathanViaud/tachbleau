@@ -20,7 +20,8 @@ export const useTasks = defineStore('tasks', {
             search: '',
             status: new Set(),
             priority: new Set(),
-            assignee: new Set()
+            assignee: new Set(),
+            project: new Set()
         }
     }),
     
@@ -95,6 +96,10 @@ export const useTasks = defineStore('tasks', {
             }
             
             if (this.filters.priority.size && !this.filters.priority.has(task.priority)) {
+                return false;
+            }
+            
+            if (this.filters.project.size && !this.filters.project.has(task.project)) {
                 return false;
             }
             

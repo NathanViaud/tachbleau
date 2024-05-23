@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { Button } from '~/components/ui/button';
 import { useTasks } from '~/stores/tasks.store';
+import { useProjects } from '~/stores/projects.store';
 import { Plus } from 'lucide-vue-next';
 import type { Task } from '~/types';
 
 const tasksStore = useTasks();
+const projectsStore = useProjects();
 
 tasksStore.fetchTasks();
+projectsStore.fetchProjects();
+
 
 const columns = computed(() => [
     {
