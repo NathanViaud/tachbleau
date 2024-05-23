@@ -34,27 +34,19 @@ const onSubmit = form.handleSubmit(async (values) => {
     const newProject: ProjectForm = {
         title: values.title,
         description: values.description,
-        tasks: [],
         startDate: calendarToDate(values.startDate),
         endDate: calendarToDate(values.endDate)
     }
 
     if(props.project) {
         // update project
-        console.log('else');
+        console.log('update project', newProject);
     } else {
         console.log('new project', newProject);
         await createProject(newProject);
         await router.push('/projects');
-        // create project
-
-        // await router.push('/projects');
     }
 })
-
-function test() {
-    console.log('test');
-}
 
 </script>
 

@@ -20,7 +20,8 @@ export const useTasks = defineStore('tasks', {
             search: '',
             status: new Set(),
             priority: new Set(),
-            assignee: new Set()
+            assignee: new Set(),
+            project: new Set()
         }
     }),
     
@@ -32,8 +33,9 @@ export const useTasks = defineStore('tasks', {
             if (state.filters.status.size) return false;
             if (state.filters.priority.size) return false;
             if (state.filters.assignee.size) return false;
+            return !state.filters.project.size;
             
-            return true;
+            
         },
     },
     
@@ -83,6 +85,7 @@ export const useTasks = defineStore('tasks', {
             this.filters.status.clear();
             this.filters.priority.clear();
             this.filters.assignee.clear();
+            this.filters.project.clear();
         },
         
         passesFilters(task: Task) {
@@ -95,6 +98,10 @@ export const useTasks = defineStore('tasks', {
             }
             
             if (this.filters.priority.size && !this.filters.priority.has(task.priority)) {
+                return false;
+            }
+            
+            if (this.filters.project.size && (!task.project || !this.filters.project.has(task.project))) {
                 return false;
             }
             

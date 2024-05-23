@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { STATUS_OBJ, type Task } from '~/types';
 import { Card, CardHeader, CardContent, CardTitle } from '~/components/ui/card';
-import { Calendar, ChevronUp, ChevronsUp, Minus } from 'lucide-vue-next';
+import { Calendar, ChevronUp, ChevronsUp, Minus, CircleUserRound } from 'lucide-vue-next';
 import {
     Sheet,
     SheetContent,
@@ -14,7 +14,8 @@ import {
 import TaskFormComponent from '~/components/task/Form.vue';
 import { nameToColor, getRelativeDate } from '~/utils';
 
-const props = defineProps<{
+
+defineProps<{
     task: Task;
 }>();
 

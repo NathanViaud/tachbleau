@@ -5,13 +5,14 @@ import uniqueValidator from 'mongoose-unique-validator';
 
 const taskSchema = new mongoose.Schema({
     title: { type: String, required: true },
-    description: { type: String, default: '' },
+    description: { type: String },
     status: { type: String, default: 'backlog' },
     start: { type: Date, default: null },
     deadline: { type: String, required: true },
     duration: { type: Number, required: true },
-    assignedTo: { type: ObjectId, ref: 'User', default: null },
-    priority: { type: String, required: true }
+    priority: { type: String, default: 'low' },
+    assignedTo: { type: ObjectId, ref: 'User' },
+    project: { type: ObjectId, ref: 'Project' }
 });
 
 taskSchema.plugin(uniqueValidator);

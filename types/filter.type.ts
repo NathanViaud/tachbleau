@@ -5,4 +5,5 @@ export interface Filter {
     status: Set<Task['status']>;
     priority: Set<Task['priority']>;
     assignee: Set<string>;
+    project: Set<string>;
 }
