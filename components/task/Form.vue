@@ -4,7 +4,7 @@ import { useForm } from 'vee-validate';
 import { Textarea } from '~/components/ui/textarea';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select';
 import { taskSchema } from '~/schema';
-import type { Project, Task, TaskForm } from '~/types';
+import { PRIORITY_OBJ, type Project, STATUS_OBJ, type Task, type TaskForm } from '~/types';
 import { dateToCalendar, calendarToDate } from '~/utils';
 import { useTasks } from '~/stores/tasks.store';
 import { Circle, CircleDashed, CircleCheck, Timer } from 'lucide-vue-next';
@@ -113,28 +113,10 @@ defineExpose({
                             <SelectContent>
                                 <SelectGroup class="pr-1">
                                     <SelectLabel>Status</SelectLabel>
-                                    <SelectItem value="backlog">
+                                    <SelectItem v-for="status of STATUS_OBJ" :value="status.value">
                                         <p class="flex items-center gap-1">
-                                            <CircleDashed class="w-4 h-4" />
-                                            Backlog
-                                        </p>
-                                    </SelectItem>
-                                    <SelectItem value="todo">
-                                        <p class="flex items-center gap-1">
-                                            <Circle class="w-4 h-4" />
-                                            Todo
-                                        </p>
-                                    </SelectItem>
-                                    <SelectItem value="doing">
-                                        <p class="flex items-center gap-1">
-                                            <Timer class="w-4 h-4" />
-                                            Doing
-                                        </p>
-                                    </SelectItem>
-                                    <SelectItem value="done">
-                                        <p class="flex items-center gap-1">
-                                            <CircleCheck class="w-4 h-4" />
-                                            Done
+                                            <component :is="status.icon" class="size-4" />
+                                            {{ status.label }}
                                         </p>
                                     </SelectItem>
                                 </SelectGroup>
@@ -155,9 +137,12 @@ defineExpose({
                             <SelectContent>
                                 <SelectGroup>
                                     <SelectLabel>Priority</SelectLabel>
-                                    <SelectItem value="low">Low</SelectItem>
-                                    <SelectItem value="medium">Medium</SelectItem>
-                                    <SelectItem value="high">High</SelectItem>
+                                    <SelectItem v-for="priority of PRIORITY_OBJ" :value="priority.value">
+                                        <p class="flex items-center gap-1">
+                                            <component :is="priority.icon" class="size-4" />
+                                            {{ priority.label }}
+                                        </p>
+                                    </SelectItem>
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
