@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/sheet'
 
 import TaskFormComponent from '~/components/task/Form.vue';
-import { nameToColor, getRelativeDate } from '~/utils';
+import { nameToColor, getRelativeDate, isDateInPast } from '~/utils';
 
 
 defineProps<{
@@ -49,7 +49,7 @@ function onSubmit() {
                     </CardTitle>
 
                     <CardDescription class="flex w-full justify-between">
-                        <p class="flex items-center gap-1">
+                        <p class="flex items-center gap-1" :class="{ 'text-red-500' : isDateInPast(task.deadline) }">
                             <Calendar class="h-4 w-4" />
                             {{ getRelativeDate(task.deadline) }}
                         </p>
