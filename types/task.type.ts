@@ -53,6 +53,8 @@ export interface Task {
     priority: typeof PRIORITY[number];
     deadline: string;
     start?: string;
+    assignedTo?: string;
+    project?: string;
 }
 
 export interface TaskForm extends Omit<Task, '_id'> {}

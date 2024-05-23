@@ -4,10 +4,11 @@ import { useForm } from 'vee-validate';
 import { Textarea } from '~/components/ui/textarea';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select';
 import { taskSchema } from '~/schema';
-import type { Task, TaskForm } from '~/types';
+import type { Project, Task, TaskForm } from '~/types';
 import { dateToCalendar, calendarToDate } from '~/utils';
 import { useTasks } from '~/stores/tasks.store';
 import { Circle, CircleDashed, CircleCheck, Timer } from 'lucide-vue-next';
+import { getProjects } from '~/services';
 
 const tasksStore = useTasks();
 
@@ -24,7 +25,9 @@ const form = useForm({
     validationSchema: formSchema,
 });
 
-onMounted(() => {
+const projects: Ref<Project[]> = ref([]);
+
+onMounted(async () => {
     if(props.task) {
         form.setValues({
             title: props.task.title,
@@ -32,9 +35,13 @@ onMounted(() => {
             description: props.task.description,
             duration: props.task.duration,
             priority: props.task.priority,
-            deadline: dateToCalendar(props.task.deadline)
+            deadline: dateToCalendar(props.task.deadline),
+            project: props.task.project
         });
     }
+
+    //TODO: Use a store for the projects
+    projects.value = await getProjects();
 })
 
 const onSubmit = form.handleSubmit(async (values) => {
@@ -44,7 +51,8 @@ const onSubmit = form.handleSubmit(async (values) => {
         description: values.description,
         duration: values.duration,
         priority: values.priority,
-        deadline: calendarToDate(values.deadline)
+        deadline: calendarToDate(values.deadline),
+        project: values.project
     }
 
     if(props.task) {
@@ -164,6 +172,29 @@ defineExpose({
                         <DatePicker v-bind="componentField" placeholder="Deadline" />
                     </FormControl>
                     <FormMessage />
+                </FormItem>
+            </FormField>
+
+            <FormField v-slot="{ componentField }" name="project">
+                <FormItem>
+                    <FormControl>
+                        <Select v-bind="componentField" :default-value="null">
+                            <SelectTrigger>
+                                <SelectValue placeholder="Project" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Project</SelectLabel>
+                                    <SelectItem :value="null">
+                                        No project
+                                    </SelectItem>
+                                    <SelectItem v-for="project in projects" :key="project._id" :value="project._id">
+                                        {{ project.title }}
+                                    </SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </FormControl>
                 </FormItem>
             </FormField>
 

@@ -12,7 +12,7 @@ export function calendarToDate(date: DateValue): string {
     return date.toString();
 }
 
-export function dateToCalendar(date: string): DateValue{
+export function dateToCalendar(date: string): DateValue {
     return parseDate(date);
 }
 
