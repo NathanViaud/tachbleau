@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SquareKanban, UsersRound, LogOut, Sun, Moon } from "lucide-vue-next"
+import { SquareKanban, UsersRound, LogOut, Sun, Moon, Folders } from "lucide-vue-next"
 
 const colorMode = useColorMode();
 
@@ -11,30 +11,29 @@ function toggleColorMode() {
 
 <template>
     <header class="border-b-2 border-b-muted pt-2 pb-3 px-3 align-center bg w-full fixed z-10 top-0 backdrop-blur-lg">
-        <div class="flex flex-row gap-5">
-            <router-link to="/dashboard" class="flex flex-row gap-2">
-                <img class="h-16 rounded-xl" src="" alt="">
-                <div class="text-2xl font-bold flex flex-col justify-center">
-                    <p>Tach'Bleau</p>
-                </div>
-            </router-link>
-            <div class="flex flex-1 justify-end flex-row items-center gap-6 ">
-                <router-link to="/kanban">
-                    <Button variant="ghost" size="icon" class="w-12 h-12 rounded-full">
+        <div class="flex flex-row gap-5 items-center">
+            <Button variant="ghost" as-child class="text-2xl font-bold p-8">
+                <NuxtLink to="/dashboard">Tach'Bleau</NuxtLink>
+            </Button>
+            <div class="flex flex-1 justify-end flex-row items-center gap-3 ">
+                <Button variant="ghost" size="icon" class="size-14 rounded-full" as-child>
+                    <NuxtLink to="/kanban">
                         <SquareKanban />
-                    </Button>
-                </router-link>
-                <router-link to="/stafflist">
-                    <Button variant="ghost" size="icon" class="w-12 h-12 rounded-full">
+                    </NuxtLink>
+                </Button>
+                <Button variant="ghost" size="icon" class="size-14 rounded-full" as-child>
+                    <NuxtLink to="/projects">
+                        <Folders />
+                    </NuxtLink>
+                </Button>
+                <Button variant="ghost" size="icon" class="size-14 rounded-full" as-child>
+                    <NuxtLink to="/stafflist">
                         <UsersRound />
-                    </Button>
-                </router-link>
-                <PopoverNotifs />
-                <router-link to="/logout">
-                    <Button variant="ghost" size="icon" class="w-12 h-12 rounded-full">
-                        <LogOut />
-                    </Button>
-                </router-link>
+                    </NuxtLink>
+                </Button>
+                <Button variant="ghost" size="icon" class="size-14 rounded-full">
+                    <LogOut />
+                </Button>
 
                 <Button @click="toggleColorMode" variant="ghost" size="icon" class="h-12 w-12 rounded-full">
                     <Sun class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
