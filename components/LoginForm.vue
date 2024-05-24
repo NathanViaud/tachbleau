@@ -21,6 +21,8 @@
   </form>
 </template>
 <script lang="ts" setup>
+import type { UserInput } from '~/types/user.type';
+
 const email = ref('admin@gmail.com')
 const password = ref('password')
 const { login } = await useAuth()

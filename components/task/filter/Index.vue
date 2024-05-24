@@ -4,8 +4,13 @@ import { X } from 'lucide-vue-next';
 import { useTasks } from '~/stores/tasks.store';
 import { useProjects } from '~/stores/projects.store';
 
+defineProps<{
+    removeProjectFilter?: boolean;
+}>();
+
 const tasksStore = useTasks();
 const projectsStore = useProjects();
+
 
 </script>
 
@@ -16,6 +21,7 @@ const projectsStore = useProjects();
         <TaskFilterInput label="Priority" :options="PRIORITY_OBJ" v-model="tasksStore.filters.priority" />
         <TaskFilterInput label="Assigned" />
         <TaskFilterInput
+            v-if="!removeProjectFilter"
             label="Project"
             :options="projectsStore.projects.map((project: Project) => ({ value: project._id, label: project.title }))"
             v-model="tasksStore.filters.project"

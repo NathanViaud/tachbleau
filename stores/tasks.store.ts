@@ -88,7 +88,7 @@ export const useTasks = defineStore('tasks', {
             this.filters.project.clear();
         },
         
-        passesFilters(task: Task) {
+        passesFilters(task: Task, filterProjectId?: string) {
             if (this.filters.search && !task.title.toLowerCase().includes(this.filters.search.toLowerCase())) {
                 return false;
             }
@@ -102,6 +102,10 @@ export const useTasks = defineStore('tasks', {
             }
             
             if (this.filters.project.size && (!task.project || !this.filters.project.has(task.project))) {
+                return false;
+            }
+            
+            if (filterProjectId && task.project !== filterProjectId) {
                 return false;
             }
             

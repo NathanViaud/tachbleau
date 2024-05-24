@@ -6,7 +6,8 @@ defineProps<{
         tasks: Task[],
         status: Task['status'];
         name: string;
-    }[]
+    }[],
+    filterProjectId?: string;
 }>();
 
 const emits = defineEmits<{
@@ -23,6 +24,7 @@ const emits = defineEmits<{
                 :name="column.name"
                 :tasks="column.tasks"
                 :status="column.status"
+                :filter-project-id="filterProjectId"
                 @added="emits('added', { id: $event, status: column.status })"
             />
         </div>

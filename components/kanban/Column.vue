@@ -9,6 +9,7 @@ defineProps<{
     name: 'Todo' | 'Doing' | 'Done' | 'Backlog';
     status: Task['status'];
     tasks: Task[];
+    filterProjectId?: string;
 }>();
 
 const emits = defineEmits<{
@@ -46,7 +47,7 @@ function handleChange(evt: any) {
         >
             <template #item="{ element }">
                 <div class="item">
-                    <KanbanCard :task="element" v-if="tasksStore.passesFilters(element)" />
+                    <KanbanCard :task="element" v-if="tasksStore.passesFilters(element, filterProjectId)" />
                 </div>
             </template>
         </draggable>
