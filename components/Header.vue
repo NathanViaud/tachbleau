@@ -31,9 +31,12 @@ function toggleColorMode() {
                         <UsersRound />
                     </NuxtLink>
                 </Button>
+
                 <Button variant="ghost" size="icon" class="size-14 rounded-full">
                     <LogOut />
                 </Button>
+
+                <PopoverNotifs />
 
                 <Button @click="toggleColorMode" variant="ghost" size="icon" class="h-12 w-12 rounded-full">
                     <Sun class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
