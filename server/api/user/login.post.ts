@@ -2,6 +2,8 @@
 import mongoose from "mongoose"
 import { User } from "../../models/user.model"
 import { loginSchema } from "~/schema";
+import { verifyPassword } from '../../utils/password';
+
 export default defineEventHandler(async (event) => {
   try {
     const body = await readValidatedBody(event, body => loginSchema.safeParse(body));
@@ -13,7 +15,9 @@ export default defineEventHandler(async (event) => {
       });
     }
     const { email, password } = body.data; // Declare the 'email' variable
-    const user = await User.findOne({ email, password });
+    const user = await User.findOne({ email });
+// verify password
+    
     if (!user) {
       throw createError({
         statusCode: 401,
@@ -21,6 +25,7 @@ export default defineEventHandler(async (event) => {
       });
     }
     console.log(user);
+    
     return { user };
   } catch(e) {
     throw createError({

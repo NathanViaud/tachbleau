@@ -10,7 +10,8 @@ export const useAuth = () => {
         console.log(user)
         try {
             const data: any = await axios.post('/api/user/login', {
-                body: user
+                email: user.email,
+                password: user.password
             })
             console.log(data)
             userAdmin.value = data.isAdmin;
