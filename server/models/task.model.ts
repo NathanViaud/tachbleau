@@ -11,7 +11,7 @@ const taskSchema = new mongoose.Schema({
     deadline: { type: String, required: true },
     duration: { type: Number, required: true },
     priority: { type: String, default: 'low' },
-    assignedTo: { type: ObjectId, ref: 'User' },
+    assignedTo: { type: ObjectId, ref: 'User', default: null },
     project: { type: ObjectId, ref: 'Project' }
 });
 
