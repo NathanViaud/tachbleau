@@ -1,5 +1,5 @@
 import type { User, UserInput } from "~/types/user.type"
-
+import axios from 'axios'
 export const useAuth = () => {
     const authUser = useAuthUser()
     const userAdmin = useState<boolean>('userAdmin', () => false)
@@ -7,9 +7,9 @@ export const useAuth = () => {
         authUser.value = user
     }
     const login = async (user: UserInput) => {
+        console.log(user)
         try {
-            const data: any = await $fetch('/api/user', {
-                method: 'POST',
+            const data: any = await axios.post('/api/user/login', {
                 body: user
             })
             console.log(data)

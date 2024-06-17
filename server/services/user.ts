@@ -1,3 +1,4 @@
+import type { User } from "~/types/user.type"
 import { getUserByEmail } from "../models/user"
 import { verifyPassword } from "../utils/password"
 
