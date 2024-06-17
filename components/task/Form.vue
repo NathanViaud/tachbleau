@@ -5,10 +5,10 @@ import { Textarea } from '~/components/ui/textarea';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select';
 import { taskSchema } from '~/schema';
 import { PRIORITY_OBJ, type Project, STATUS_OBJ, type Task, type TaskForm } from '~/types';
-import { dateToCalendar, calendarToDate } from '~/utils';
+import { dateToCalendar, calendarToDate, nameToColor } from '~/utils';
 import { useTasks } from '~/stores/tasks.store';
-import { Circle, CircleDashed, CircleCheck, Timer } from 'lucide-vue-next';
-import { getProjects } from '~/services';
+import { useUsers } from '~/stores/users.store';
+import { CircleUserRound } from 'lucide-vue-next';
 
 const tasksStore = useTasks();
 
@@ -25,7 +25,8 @@ const form = useForm({
     validationSchema: formSchema,
 });
 
-const projects: Ref<Project[]> = ref([]);
+const projectsStore = useProjects();
+const usersStore = useUsers();
 
 onMounted(async () => {
     if(props.task) {
@@ -36,12 +37,10 @@ onMounted(async () => {
             duration: props.task.duration,
             priority: props.task.priority,
             deadline: dateToCalendar(props.task.deadline),
-            project: props.task.project
+            project: props.task.project,
+            assignedTo: props.task.assignedTo
         });
     }
-
-    //TODO: Use a store for the projects
-    projects.value = await getProjects();
 })
 
 const onSubmit = form.handleSubmit(async (values) => {
@@ -52,7 +51,8 @@ const onSubmit = form.handleSubmit(async (values) => {
         duration: values.duration,
         priority: values.priority,
         deadline: calendarToDate(values.deadline),
-        project: values.project
+        project: values.project,
+        assignedTo: values.assignedTo
     }
 
     if(props.task) {
@@ -102,7 +102,7 @@ defineExpose({
             </FormItem>
         </FormField>
 
-        <div class="flex gap-2 items-center mt-2">
+        <div class="flex gap-2 items-center mt-2 flex-wrap">
             <FormField v-slot="{ componentField }" name="status">
                 <FormItem>
                     <FormControl>
@@ -173,8 +173,39 @@ defineExpose({
                                     <SelectItem :value="null">
                                         No project
                                     </SelectItem>
-                                    <SelectItem v-for="project in projects" :key="project._id" :value="project._id">
+                                    <SelectItem v-for="project in projectsStore.projects" :key="project._id" :value="project._id">
                                         {{ project.title }}
+                                    </SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </FormControl>
+                </FormItem>
+            </FormField>
+
+            <FormField v-slot="{ componentField }" name="assignedTo">
+                <FormItem>
+                    <FormControl>
+                        <Select v-bind="componentField" :default-value="null">
+                            <SelectTrigger>
+                                <SelectValue placeholder="Assignee" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Assignee</SelectLabel>
+                                    <SelectItem :value="null">
+                                        <p class="flex items-center gap-1">
+                                            <CircleUserRound class="user-icon size-6 text-muted-foreground" />
+                                            No assignee
+                                        </p>
+                                    </SelectItem>
+                                    <SelectItem v-for="user in usersStore.users" :key="user._id" :value="user._id">
+                                        <p class="flex items-center gap-1">
+                                            <Avatar class="size-6" :style="`background-color: ${nameToColor(user.name)}`">
+                                                <AvatarFallback class="text-black">{{ user.name.substring(0, 2) }}</AvatarFallback>
+                                            </Avatar>
+                                            {{ user.name }}
+                                        </p>
                                     </SelectItem>
                                 </SelectGroup>
                             </SelectContent>

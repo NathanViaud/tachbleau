@@ -19,7 +19,7 @@ export const useProjects = defineStore('projects', {
         getProjectTasks(projectId: string) {
             const tasksStore = useTasks();
             
-            return tasksStore.tasks.filter((task) => task.project === projectId);
+            return tasksStore.tasks.filter((task: Task) => task.project === projectId);
         },
         
         getProjectAdvancement(projectId: string) {
