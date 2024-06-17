@@ -14,7 +14,7 @@ export const useAuth = () => {
                 password: user.password
             })
             console.log(data)
-            userAdmin.value = data.isAdmin;
+            userAdmin.value = data.user.role === 'admin'
             setUser(data.user)
             return data
         } catch (err) {
