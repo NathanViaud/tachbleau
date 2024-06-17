@@ -21,13 +21,14 @@ let users = ref<User[]>([])
 let loading = ref(false)
 
 const fetchUsers = async () => {
-    const { data } = await axios.get('/api/user/users')
+    const { data } = await axios.get('/api/users')
     users.value = data
     loading.value = false
 }
 onMounted(() => {
     loading.value = true
     fetchUsers()
+    console.log(users)
 })
 
 let email = ref('')
@@ -36,7 +37,7 @@ let name = ref('')
 let job = ref('')
 let role = ref('')
 const newUser = async () => {
-    await axios.post('/api/user/users', {
+    await axios.post('/api/users', {
         email: email.value,
         password: password.value,
         name: name.value,
@@ -44,7 +45,14 @@ const newUser = async () => {
         role: role.value
     })
 }
+const deleteUser = async (id: string) => {
+    await axios.delete(`/api/users/${id}`)
+    fetchUsers()
+}
 
+const putUser = async (id: string) => {
+    navigateTo(`/admin/users/${id}`)
+}
 </script>
 
 <template>
@@ -59,10 +67,18 @@ const newUser = async () => {
         </TableRow>
     </TableHead>
     <TableBody>
-        <TableRow v-for="user in users" :key="user.id">
-            <TableCell>{{ user.id }}</TableCell>
+        <TableRow v-for="user in users" :key="user._id">
+            <TableCell>{{ user._id }}</TableCell>
             <TableCell>{{ user.email }}</TableCell>
             <TableCell>{{ user.role }}</TableCell>
+            <TableCell>
+                <Button variant="ghost" size="icon" class="size-14 rounded-full">
+                    <Pencil />
+                </Button>
+                <Button variant="ghost" size="icon" class="size-14 rounded-full">
+                    <Trash2 />
+                </Button>
+            </TableCell>
             <TableCell>
                 <Button variant="ghost" size="icon" class="size-14 rounded-full">
                     <Pencil />
