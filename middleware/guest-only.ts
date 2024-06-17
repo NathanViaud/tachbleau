@@ -1,10 +1,9 @@
+import { useUsers } from '~/stores/users.store';
+
 export default defineNuxtRouteMiddleware(async (_to, _from) => {
-    const user = useAuthUser()
-  
-    if (user.value) {
-      if (process.server)
-        return navigateTo({ name: 'index' })
-  
-      return abortNavigation()
+    const usersStore = useUsers();
+    
+    if (usersStore.currentUser) {
+        return navigateTo({ name: "dashboard" })
     }
-  })
+})

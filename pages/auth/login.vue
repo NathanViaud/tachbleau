@@ -2,16 +2,18 @@
 import { Card, CardDescription, CardHeader, CardTitle, CardContent } from '~/components/ui/card';
 import { Form, FormControl, FormField, FormLabel } from '~/components/ui/form';
 import { Button } from '~/components/ui/button';
+import { Input } from '~/components/ui/input';
 
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 import { useForm } from 'vee-validate';
-import { Input } from '~/components/ui/input';
 import type { UserInput } from '~/types/user.type';
+import { useUsers } from '~/stores/users.store';
 
 definePageMeta({
     middleware: 'guest-only'
 })
+
 const router = useRouter();
 
 const formSchema = toTypedSchema(z.object({
@@ -23,14 +25,14 @@ const form = useForm({
     validationSchema: formSchema,
 });
 
-const { login } = useAuth();
-const onSubmit = form.handleSubmit((values) => {
-    const userData: UserInput = {
-        email: values.email,
-        password: values.password
-    }
+const usersStore = useUsers();
 
-    login(userData).then(data => router.push('/'))
+const onSubmit = form.handleSubmit(async (values) => {
+    await usersStore.login(values.email, values.password);
+
+    if (usersStore.currentUser) {
+        await router.push('/');
+    }
 });
 
 </script>

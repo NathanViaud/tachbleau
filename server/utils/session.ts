@@ -1,23 +1,23 @@
 import jwt from "jsonwebtoken"
-import type { User } from "~/types/user.type"
-const createToken = async (user: User) => {
+import type { User, UserWithoutPassword } from "~/types/user.type"
+const createToken = async (user: UserWithoutPassword) => {
   const config = useRuntimeConfig()
-  return await jwt.sign(
-    {
-      id: user.id,
-      email: user.email
-    },
-    config.tokenSecret,
-
-    {
-      expiresIn: "1h"
-    }
-  )
+  return jwt.sign(
+      {
+        id: user._id,
+        email: user.email
+      },
+      config.tokenSecret,
+      
+      {
+        expiresIn: "1h"
+      }
+  );
 }
 const verifyToken = async (token: string) => {
   try {
   const config = useRuntimeConfig()
-  return await jwt.verify(token, config.tokenSecret)
+  return jwt.verify(token, config.tokenSecret)
   } catch (err) {
     return "Token expired"
   }
