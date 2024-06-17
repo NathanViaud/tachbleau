@@ -1,4 +1,4 @@
-import type { User } from "~/types/user.type"
+import type { User, UserInput } from "~/types/user.type"
 
 export const useAuth = () => {
     const authUser = useAuthUser()
@@ -13,11 +13,7 @@ export const useAuth = () => {
                 body: user
             })
             console.log(data)
-            if (data.isAdmin) {
-                userAdmin.value = true
-            } else {
-                userAdmin.value = false
-            }
+            userAdmin.value = data.isAdmin;
             setUser(data.user)
             return data
         } catch (err) {

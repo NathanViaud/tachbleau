@@ -11,6 +11,10 @@ import {
 } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 
+definePageMeta({
+    middleware: 'admin-only'
+})
+
 </script>
 
 <template>

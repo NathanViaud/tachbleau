@@ -9,6 +9,10 @@ onMounted(async () => {
     projects.value = await getProjects();
 })
 
+definePageMeta({
+    middleware: 'user-only'
+});
+
 </script>
 
 <template>
