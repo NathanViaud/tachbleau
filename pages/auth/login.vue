@@ -7,6 +7,12 @@ import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 import { useForm } from 'vee-validate';
 import { Input } from '~/components/ui/input';
+import type { UserInput } from '~/types/user.type';
+
+definePageMeta({
+    middleware: 'guest-only'
+})
+const router = useRouter();
 
 const formSchema = toTypedSchema(z.object({
     email: z.string().email(),
@@ -17,13 +23,15 @@ const form = useForm({
     validationSchema: formSchema,
 });
 
+const { login } = useAuth();
 const onSubmit = form.handleSubmit((values) => {
-    console.log('Form submitted!', values);
-});
+    const userData: UserInput = {
+        email: values.email,
+        password: values.password
+    }
 
-definePageMeta({
-    middleware: 'guest-only'
-})
+    login(userData).then(data => router.push('/'))
+});
 
 </script>
 

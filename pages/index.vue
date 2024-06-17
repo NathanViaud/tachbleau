@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+const {authUser} = useAuth();
+</script>
+
 <template>
     <div class="text-white">
       <div class="text-center">
@@ -9,7 +13,3 @@
       </div>
     </div>
   </template>
-  <script lang="ts" setup>
-  const {authUser} = await useAuth()
-  </script>
-  
