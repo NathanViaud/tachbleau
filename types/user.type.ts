@@ -5,6 +5,7 @@ export type User = {
     name: string;
     role: string;
     job: string;
+    id: string;
 };
 
 export interface UserInput {

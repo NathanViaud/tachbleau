@@ -4,10 +4,6 @@ import { Button } from '~/components/ui/button';
 import { Plus } from 'lucide-vue-next';
 
 const tasksStore = useTasks();
-const projectsStore = useProjects();
-
-tasksStore.fetchTasks();
-projectsStore.fetchProjects();
 
 defineProps<{
     filterProjectId?: string;

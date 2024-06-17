@@ -12,18 +12,16 @@ const projectsStore = useProjects();
 const tasksStore = useTasks();
 const projectAdvancement = computed(() => projectsStore.getProjectAdvancement(props.project._id));
 
-// TODO: This should be done in a middleware
-onMounted(() => {
-    if(!tasksStore.tasks.length) tasksStore.fetchTasks();
-    if(!projectsStore.projects.length) projectsStore.fetchProjects();
-})
-
 const router = useRouter();
 
 </script>
 
 <template>
-    <div @click="router.push(`/tasks/${project._id}`)" class="border rounded border-muted p-4 flex gap-2 items-center" v-if="tasksStore.tasks.length">
+    <div
+        @click="router.push(`/tasks/${project._id}`)"
+        class="border rounded border-muted p-4 flex gap-2 items-center cursor-pointer transition project-item"
+        v-if="tasksStore.tasks.length"
+    >
         <div class="flex flex-col flex-1">
             <h2 class="text-lg font-semibold">{{ project.title }}</h2>
             <span class="text-muted-foreground">{{ formatDate(project.startDate) }} - {{ formatDate(project.endDate) }}</span>
@@ -38,3 +36,4 @@ const router = useRouter();
         </div>
     </div>
 </template>
+
