@@ -7,6 +7,6 @@ export const taskSchema = z.object({
     priority: z.enum(['low', 'medium', 'high']).default('low'),
     deadline: z.any(),
     status: z.enum(['done', 'doing', 'todo', 'backlog']).default('backlog'),
-    assignedTo: z.string().optional(),
+    assignedTo: z.string().nullable().optional(),
     project: z.string().optional(),
 });

@@ -36,7 +36,7 @@ let name = ref('')
 let job = ref('')
 let role = ref('')
 const newUser = async () => {
-    await axios.post('/api/user/users', {
+    await axios.post('/api/users', {
         email: email.value,
         password: password.value,
         name: name.value,

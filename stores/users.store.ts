@@ -1,5 +1,5 @@
 import type { UserWithoutPassword } from '~/types/user.type';
-import { login, postToken, register } from '~/services';
+import { getUsers, login, postToken, register } from '~/services';
 
 interface UsersState {
     users: UserWithoutPassword[];
@@ -23,10 +23,15 @@ export const useUsers = defineStore('users', {
         },
 
         async register(email: string, password: string, name: string, job: string, role: string) {
-            this.currentUser = await register(email, password, name, job, role);
-            if (this.currentUser) {
-                this.token = await postToken(this.currentUser);
-            }
+            this.users.push(await register(email, password, name, job, role));
+        },
+        
+        async fetchUsers() {
+            this.users = await getUsers();
+        },
+        
+        getUser(id: string) {
+            return this.users.find(user => user._id === id);
         }
     }
 })

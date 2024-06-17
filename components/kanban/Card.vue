@@ -15,7 +15,7 @@ import TaskFormComponent from '~/components/task/Form.vue';
 import { nameToColor, getRelativeDate, isDateInPast } from '~/utils';
 
 
-defineProps<{
+const props = defineProps<{
     task: Task;
 }>();
 
@@ -26,6 +26,9 @@ function onSubmit() {
 
     taskForm.value.onSubmit();
 }
+
+const usersStore = useUsers();
+const assignedUser = computed(() => (props.task && props.task.assignedTo) ? usersStore.getUser(props.task.assignedTo) : null);
 
 </script>
 
@@ -42,9 +45,9 @@ function onSubmit() {
 
                             {{ task.title }}
                         </div>
-                        <CircleUserRound v-if="!task.assignedTo" class="user-icon w-7 h-7 text-muted-foreground" />
-                        <Avatar v-else class="h-7 w-7" :style="`background-color: ${nameToColor('Nathan Viaud')}`">
-                            <AvatarFallback class="text-black">NV</AvatarFallback>
+                        <CircleUserRound v-if="!assignedUser" class="user-icon w-7 h-7 text-muted-foreground" />
+                        <Avatar v-else class="h-7 w-7" :style="`background-color: ${nameToColor(assignedUser.name)}`">
+                            <AvatarFallback class="text-black">{{ assignedUser.name.substring(0, 2) }}</AvatarFallback>
                         </Avatar>
                     </CardTitle>
 
