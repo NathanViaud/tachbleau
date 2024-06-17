@@ -17,19 +17,7 @@ definePageMeta({
     middleware: 'admin-only'
 })
 
-let users = ref<User[]>([])
-let loading = ref(false)
-
-const fetchUsers = async () => {
-    const { data } = await axios.get('/api/users')
-    users.value = data
-    loading.value = false
-}
-onMounted(() => {
-    loading.value = true
-    fetchUsers()
-    console.log(users)
-})
+const usersStore = useUsers();
 
 let email = ref('')
 let password = ref('')
@@ -47,7 +35,6 @@ const newUser = async () => {
 }
 const deleteUser = async (id: string) => {
     await axios.delete(`/api/users/${id}`)
-    fetchUsers()
 }
 
 const putUser = async (id: string) => {
@@ -67,23 +54,16 @@ const putUser = async (id: string) => {
         </TableRow>
     </TableHead>
     <TableBody>
-        <TableRow v-for="user in users" :key="user._id">
+        <TableRow v-for="user in usersStore.users" :key="user._id">
             <TableCell>{{ user._id }}</TableCell>
             <TableCell>{{ user.email }}</TableCell>
             <TableCell>{{ user.role }}</TableCell>
             <TableCell>
-                <Button variant="ghost" size="icon" class="size-14 rounded-full">
+                <Button variant="ghost" size="icon" class="size-14 rounded-full" @click="putUser(user._id)">
                     <Pencil />
                 </Button>
-                <Button variant="ghost" size="icon" class="size-14 rounded-full">
-                    <Trash2 />
-                </Button>
-            </TableCell>
-            <TableCell>
-                <Button variant="ghost" size="icon" class="size-14 rounded-full">
-                    <Pencil />
-                </Button>
-                <Button variant="ghost" size="icon" class="size-14 rounded-full">
+                
+                <Button variant="ghost" size="icon" class="size-14 rounded-full" @click="deleteUser(user._id)">
                     <Trash2 />
                 </Button>
             </TableCell>
