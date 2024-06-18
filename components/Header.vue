@@ -30,7 +30,7 @@ const usersStore = useUsers();
                         </NuxtLink>
                     </Button>
                     <Button v-if="usersStore.currentUser" variant="ghost" size="icon" class="size-14 rounded-full" as-child>
-                        <NuxtLink to="/stafflist">
+                        <NuxtLink to="/admin/users">
                             <UsersRound />
                         </NuxtLink>
                     </Button>

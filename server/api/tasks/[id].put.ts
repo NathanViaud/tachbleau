@@ -2,7 +2,6 @@ import { Task } from '~/server/models/task.model';
 import { taskSchema } from '~/schema';
 
 export default defineEventHandler(async (event) => {
-    console.log('updating task');
     const id = getRouterParam(event, 'id');
     const body = await readValidatedBody(event, body => taskSchema.safeParse(body));
     

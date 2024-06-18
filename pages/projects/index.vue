@@ -1,13 +1,8 @@
 <script setup lang="ts">
-import type { Project } from '~/types';
 import { Plus } from 'lucide-vue-next';
-import { getProjects } from '~/services';
+import { useProjects } from '~/stores/projects.store';
 
-const projects: Ref<Project[]> = ref([]);
-
-onMounted(async () => {
-    projects.value = await getProjects();
-})
+const projectsStore = useProjects();
 
 definePageMeta({
     middleware: 'user-only'
@@ -24,6 +19,6 @@ definePageMeta({
                New project
            </RouterLink>
         </Button>
-        <ProjectsList :projects="projects" />
+        <ProjectsList :projects="projectsStore.projects" />
     </div>
 </template>

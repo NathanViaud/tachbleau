@@ -21,9 +21,7 @@ export async function createTask(task: TaskForm): Promise<Task> {
 }
 
 export async function updateTask(task: TaskForm, id: string): Promise<Task> {
-    console.log('task', task);
     const res = await axios.put(`${API_URL}/${id}`, task);
-    console.log('res', res);
     
     return res.data.task;
 }

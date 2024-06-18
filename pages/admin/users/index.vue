@@ -3,7 +3,6 @@ import { Trash2,Pencil } from 'lucide-vue-next';
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
@@ -16,6 +15,7 @@ definePageMeta({
 })
 
 const usersStore = useUsers();
+const router = useRouter();
 
 </script>
 
@@ -23,22 +23,30 @@ const usersStore = useUsers();
     <Table>
         <TableHeader>
             <TableRow>
-                <TableHead>Id</TableHead>
                 <TableHead>Name</TableHead>
+                <TableHead>Job</TableHead>
                 <TableHead>Role</TableHead>
                 <TableHead>Actions</TableHead>
             </TableRow>
         </TableHeader>
         <TableBody>
             <TableRow v-for="user in usersStore.users" :key="user._id">
-                <TableCell>{{ user._id }}</TableCell>
                 <TableCell>{{ user.name }}</TableCell>
+                <TableCell>{{ user.job }}</TableCell>
                 <TableCell>{{ user.role }}</TableCell>
-                <TableCell>
-                    <Button variant="ghost" size="icon" class="size-14 rounded-full">
+                <TableCell class="flex gap-2">
+                    <Button
+                        @click="router.push(`/admin/users/${user._id}`)"
+                        variant="secondary"
+                        size="icon"
+                    >
                         <Pencil />
                     </Button>
-                    <Button variant="ghost" size="icon" class="size-14 rounded-full">
+                    <Button
+                        @click="usersStore.deleteUser(user._id)"
+                        variant="destructive"
+                        size="icon"
+                    >
                         <Trash2 />
                     </Button>
                 </TableCell>
