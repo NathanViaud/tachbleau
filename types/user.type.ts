@@ -9,14 +9,16 @@ export type User = {
 };
 
 export interface UserInput {
-    email: string
-    password: string
+    email: string;
+    password: string;
 }
 
 export interface UserWithoutPassword {
     _id: string;
-    email: string
-    name: string
-    role: string
-    job: string
+    email: string;
+    name: string;
+    role: 'user' | 'admin';
+    job: string;
 }
+
+export type UpdateUser = Omit<UserWithoutPassword, '_id'>
