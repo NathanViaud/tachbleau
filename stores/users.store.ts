@@ -1,5 +1,5 @@
-import type { UpdateUser, UserWithoutPassword } from '~/types/user.type';
-import { deleteUser, getUsers, login, postToken, register, verifyToken } from '~/services';
+import type { SimpleUpdateUser, UpdateUser, UserWithoutPassword } from '~/types/user.type';
+import { deleteUser, getUsers, login, postToken, register, simpleUpdateUser, verifyToken } from '~/services';
 import { updateUser } from '~/services';
 
 interface UsersState {
@@ -12,6 +12,12 @@ export const useUsers = defineStore('users', {
         users: [],
         currentUser: null,
     }),
+    
+    getters: {
+        isAdmin: (state) => {
+            return state.currentUser && state.currentUser.role === 'admin'
+        }
+    },
 
     actions: {
         async login(email: string, password: string) {
@@ -48,6 +54,13 @@ export const useUsers = defineStore('users', {
         async updateUser(id: string, user: UpdateUser) {
             const updatedUser = await updateUser(id, user);
             
+            this.users = this.users.map(user => user._id === updatedUser._id ? updatedUser : user);
+        },
+        
+        async updateProfile(user: SimpleUpdateUser) {
+            const updatedUser = await simpleUpdateUser(user);
+            
+            this.currentUser = updatedUser;
             this.users = this.users.map(user => user._id === updatedUser._id ? updatedUser : user);
         },
         
