@@ -1,4 +1,4 @@
-import { verifyToken } from "~/services"
+import { verifyToken } from "~/server/utils/session"
 
 export default defineEventHandler(async (event) => {
 
@@ -9,9 +9,13 @@ export default defineEventHandler(async (event) => {
         '/auth/login', 
         '/auth/logout', 
         '/api/users/token/verify',
-        '/']
+        '/api/users',
+    ]
   
-    if (acceptedUrls.includes(event.path)) {
+
+    const match = acceptedUrls.find(url => event.path.startsWith(url))
+
+        if (match) {
       console.log('accepted url' + event.path)
       return
     }
@@ -27,7 +31,5 @@ export default defineEventHandler(async (event) => {
       if (!user) {
         return { status: 401, body: 'Unauthorized user no user'}
       }
-    
-    
     })
     

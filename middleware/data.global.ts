@@ -4,6 +4,10 @@ import { useTasks } from '~/stores/tasks.store';
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
     if (to.path !== '/' && to.path !== '/auth/login') {
+        const token = useCookie('token');
+
+        if (!token.value) return;
+        
         const usersStore = useUsers();
         const projectsStore = useProjects();
         const tasksStore = useTasks();

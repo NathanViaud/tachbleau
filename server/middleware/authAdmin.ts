@@ -1,4 +1,4 @@
-import { verifyToken } from "~/services"
+import { verifyToken } from "~/server/utils/session"
 
 export default defineEventHandler(async (event) => {
 
@@ -11,28 +11,30 @@ export default defineEventHandler(async (event) => {
     '/auth/login', 
     '/auth/logout', 
     '/api/users/token/verify',
-    '/'
-  ]
-
-  if (acceptedUrls.includes(event.path)) {
-    console.log('accepted url' + event.path)
-    return
-  }
+    '/kanban',
+    '/tasks',
+    '/projects',
+    '/api/users',
+  ];
   
-  const token = getCookie(event, 'token')
 
-  if (!token) {
-    return { status: 401, body: 'Unauthorized admin no token'}
-  }
+    const match = acceptedUrls.find(url => event.path.startsWith(url))
 
-  const user = await verifyToken(token)
-
-  if (!user) {
-    return { status: 401, body: 'Unauthorized admin no user' }
-  }
-
-  if (user.role !== 'admin') {
-    return { status: 403, body: 'Forbidden' }
-  }
-
-})
+    if (match) {
+      console.log('accepted url' + event.path)
+      return
+    }
+    
+    const token = getCookie(event, 'token')
+  
+    if (!token) {
+        return { status: 401, body: 'Unauthorized user no token'}
+      }
+    
+      const user = await verifyToken(token)
+    
+      if (!user) {
+        return { status: 401, body: 'Unauthorized user no user'}
+      }
+    })
+    
