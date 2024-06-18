@@ -38,7 +38,12 @@ const usersStore = useUsers();
                     <Button variant="ghost" size="icon" class="size-14 rounded-full">
                         <Pencil />
                     </Button>
-                    <Button variant="ghost" size="icon" class="size-14 rounded-full">
+                    <Button
+                        @click="usersStore.deleteUser(user._id)"
+                        variant="ghost"
+                        size="icon"
+                        class="size-14 rounded-full"
+                    >
                         <Trash2 />
                     </Button>
                 </TableCell>
