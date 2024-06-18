@@ -16,12 +16,11 @@ export default defineEventHandler(async (event) => {
     }
     const { email, password } = body.data; 
     const user = await User.findOne({ email });
-    console.log('user', user);
     
     const validCredentials = user ? await verifyPassword(password, user.password) : false
     
     if (!validCredentials) {
-      console.log('Invalid email or password');
+      console.log('Inalid email or password');
       throw createError({
         statusCode: 401,
         statusMessage: 'Invalid email or password'

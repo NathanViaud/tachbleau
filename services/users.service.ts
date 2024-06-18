@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { UserWithoutPassword } from '~/types/user.type';
+import type { UpdateUser, UserWithoutPassword } from '~/types/user.type';
 
 export async function getUsers() {
     const response = await axios.get('/api/users');
@@ -56,4 +56,12 @@ export async function deleteUser(id: string) {
     const response = await axios.delete(`/api/users/${id}`);
     
     return response.data.user
+}
+
+export async function updateUser(id: string, user: UpdateUser) {
+    const response = await axios.put(`/api/users/${id}`, {
+        ...user
+    });
+    
+    return response.data.user;
 }
