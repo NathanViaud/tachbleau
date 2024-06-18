@@ -19,9 +19,13 @@ const verifyToken = async (token: string) => {
   const config = useRuntimeConfig()
   return jwt.verify(token, config.tokenSecret)
   } catch (err) {
-    return "Token expired"
+    return false
   }
 }
+
+const readToken = ((token: string) => {
+  return jwt.decode(token)
+});
 
 const getUserToken = (event:any) => {
   const cookie = getCookie(event, "__session")
@@ -34,4 +38,4 @@ const getUserToken = (event:any) => {
   }
   return token
 }
-export { createToken, getUserToken }
+export { createToken, getUserToken, verifyToken, readToken }

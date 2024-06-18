@@ -35,3 +35,11 @@ export async function postToken(user: UserWithoutPassword) {
     
     return response.data.token;
 }
+
+export async function verifyToken(token: string) {
+    const response = await axios.post('http://localhost:3000/api/users/token/verify', {
+        token
+    });
+
+    return response.data.user
+}

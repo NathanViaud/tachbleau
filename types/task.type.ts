@@ -53,7 +53,7 @@ export interface Task {
     priority: typeof PRIORITY[number];
     deadline: string;
     start?: string;
-    assignedTo?: string;
+    assignedTo?: string | null;
     project?: string;
 }
 

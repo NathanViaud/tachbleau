@@ -1,4 +1,5 @@
 import type { UserWithoutPassword } from '~/types/user.type';
+import { createToken } from '~/server/utils/session';
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event);
@@ -11,5 +12,7 @@ export default defineEventHandler(async (event) => {
     }
     
     const token = await createToken(user);
+    setCookie(event, 'token', token);
+    
     return { token }
 })
