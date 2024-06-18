@@ -41,6 +41,8 @@ export const useTasks = defineStore('tasks', {
         async fetchTasks() {
             const tasks = await getTasks();
             
+            if (!tasks || !tasks.length) return;
+            
             this.backlog = tasks.filter((task) => task.status === 'backlog');
             this.todo = tasks.filter((task) => task.status === 'todo');
             this.doing = tasks.filter((task) => task.status === 'doing');

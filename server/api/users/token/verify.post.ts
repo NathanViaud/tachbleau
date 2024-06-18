@@ -5,9 +5,9 @@ import type { JwtPayload } from 'jsonwebtoken';
 export default defineEventHandler(async (event) => {
     const { token } = await readBody(event);
     
-    if (!token) return { statusCode: 400 }
+    if (!token) throw createError({ statusCode: 400 });
     const verifiedToken = await verifyToken(token) as JwtPayload
-    if (!verifiedToken) return { statusCode: 401 }
+    if (!verifiedToken) throw createError({ statusCode: 401 });
     
     const user = await User.findById(verifiedToken.id);
     

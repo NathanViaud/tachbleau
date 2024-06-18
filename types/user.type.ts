@@ -22,3 +22,4 @@ export interface UserWithoutPassword {
 }
 
 export type UpdateUser = Omit<UserWithoutPassword, '_id'>
+export type SimpleUpdateUser = Omit<UpdateUser, 'role' | 'email'>
