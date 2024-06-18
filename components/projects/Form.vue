@@ -40,9 +40,7 @@ const onSubmit = form.handleSubmit(async (values) => {
 
     if(props.project) {
         // update project
-        console.log('update project', newProject);
     } else {
-        console.log('new project', newProject);
         await createProject(newProject);
         await router.push('/projects');
     }

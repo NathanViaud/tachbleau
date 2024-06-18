@@ -34,8 +34,6 @@ export const useTasks = defineStore('tasks', {
             if (state.filters.priority.size) return false;
             if (state.filters.assignee.size) return false;
             return !state.filters.project.size;
-            
-            
         },
     },
     
@@ -109,9 +107,9 @@ export const useTasks = defineStore('tasks', {
                 return false;
             }
             
-            // if (this.filters.assignee.size && !this.filters.assignee.has(task.assignee)) {
-            //     return false;
-            // }
+            if (this.filters.assignee.size && (!task.assignedTo || !this.filters.assignee.has(task.assignedTo))) {
+                return false;
+            }
             
             return true;
         }

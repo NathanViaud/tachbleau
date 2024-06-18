@@ -4,7 +4,6 @@ import { useTasks } from '~/stores/tasks.store';
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
     if (to.path !== '/' && to.path !== '/auth/login') {
-        console.log('fetching data');
         const usersStore = useUsers();
         const projectsStore = useProjects();
         const tasksStore = useTasks();
