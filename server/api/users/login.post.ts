@@ -26,8 +26,6 @@ export default defineEventHandler(async (event) => {
         statusMessage: 'Invalid email or password'
       });
     }
-    console.log(user);
-    
     return { user };
   } catch(e) {
     throw createError({
