@@ -33,11 +33,16 @@ export async function logout() {
 }
 
 export async function postToken(user: UserWithoutPassword) {
-    const response = await axios.post('/api/users/token', {
-        ...user
-    });
-    
-    return response.data.token;
+    try {
+        const response = await axios.post('/api/users/token', {
+            ...user
+        });
+        
+        return response.data.token;
+    } catch(e) {
+        // console.log('error', e);
+        return null
+    }
 }
 
 export async function verifyToken(token: string) {
@@ -46,11 +51,9 @@ export async function verifyToken(token: string) {
             token
         });
         
-        console.log('response');
-        
         return response.data.user
     } catch(e) {
-        console.log('error', e);
+        // console.log('error', e);
         return null
     }
 }

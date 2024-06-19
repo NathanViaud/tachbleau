@@ -50,7 +50,7 @@ const onSubmit = form.handleSubmit(async (values) => {
         description: values.description,
         duration: values.duration,
         priority: values.priority,
-        deadline: calendarToDate(values.deadline),
+        deadline: values.deadline ? calendarToDate(values.deadline) : values.deadline,
         project: values.project,
         assignedTo: values.assignedTo
     }
@@ -102,6 +102,16 @@ defineExpose({
             </FormItem>
         </FormField>
 
+        <FormField v-slot="{ componentField }" name="deadline">
+            <FormItem>
+                <FormLabel>Deadline</FormLabel>
+                <FormControl>
+                    <DatePicker v-bind="componentField" placeholder="Deadline" />
+                </FormControl>
+                <FormMessage />
+            </FormItem>
+        </FormField>
+
         <div class="flex gap-2 items-center mt-2 flex-wrap">
             <FormField v-slot="{ componentField }" name="status">
                 <FormItem>
@@ -146,15 +156,6 @@ defineExpose({
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-            </FormField>
-
-            <FormField v-slot="{ componentField }" name="deadline">
-                <FormItem>
-                    <FormControl>
-                        <DatePicker v-bind="componentField" placeholder="Deadline" />
                     </FormControl>
                     <FormMessage />
                 </FormItem>
