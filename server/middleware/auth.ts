@@ -26,7 +26,11 @@ export default defineEventHandler(async (event) => {
         { url: '/api/users', method: 'GET' },
         { url: '/api/users/:id', method: 'GET' },
         { url: '/api/users/logout', method: 'POST' },
-        { url: '/api/users/update', method: 'PUT' }
+        { url: '/api/users/update', method: 'PUT' },
+        
+        // Notifications
+        { url: '/api/notifications', method: 'GET' },
+        { url: '/api/notifications/setRead', method: 'POST' }
     ];
     
     const guestRoutes = [
@@ -52,5 +56,7 @@ export default defineEventHandler(async (event) => {
             if (verifiedToken.role === 'admin') return;
             return { status: 403, body: 'Unauthorized user not admin' };
         }
+        
+        else return { status: 404, body: 'This route is not registered' }
     }
 })

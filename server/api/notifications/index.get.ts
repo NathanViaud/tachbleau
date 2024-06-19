@@ -10,12 +10,9 @@ export default defineEventHandler(async (event) => {
             statusMessage: 'Unauthorized'
         })
     }
-    const verify = await verifyToken(token) as JwtPayload;
-
-    const user = verify;
+    const user = await verifyToken(token) as JwtPayload;
     try {
-        const notifications = await Notification.find({ assignedTo: user.id }).populate('assignedTo');
-        console.log(notifications);
+        const notifications = await Notification.find({ assignedTo: user.id })
         return {
             notifications
         }
