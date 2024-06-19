@@ -72,4 +72,12 @@ yarn preview
 bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## How to use
+
+Upon running the development server, you can visit `http://localhost:3000` to see the application.
+
+There you can login with an admin account or a user account. 
+
+The user account can view the dashboard, can edit, delete and create tasks and projects, can view the users and edit his own account(except the mail).
+
+The admin account can view the dashboard, can edit, delete and create tasks and projects, can view the users and can edit, delete and create users.
