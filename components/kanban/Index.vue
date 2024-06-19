@@ -8,6 +8,7 @@ defineProps<{
         name: string;
     }[],
     filterProjectId?: string;
+    loading: boolean;
 }>();
 
 const emits = defineEmits<{
@@ -25,6 +26,7 @@ const emits = defineEmits<{
                 :tasks="column.tasks"
                 :status="column.status"
                 :filter-project-id="filterProjectId"
+                :loading="loading"
                 @added="emits('added', { id: $event, status: column.status })"
             />
         </div>

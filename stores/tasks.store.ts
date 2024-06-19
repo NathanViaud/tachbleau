@@ -7,6 +7,7 @@ interface TasksState {
     doing: Task[];
     done: Task[];
     filters: Filter;
+    loading: boolean;
 }
 
 export const useTasks = defineStore('tasks', {
@@ -22,7 +23,8 @@ export const useTasks = defineStore('tasks', {
             priority: new Set(),
             assignee: new Set(),
             project: new Set()
-        }
+        },
+        loading: false
     }),
     
     getters: {
@@ -39,6 +41,8 @@ export const useTasks = defineStore('tasks', {
     
     actions: {
         async fetchTasks() {
+            this.loading = true;
+            
             const tasks = await getTasks();
             
             if (!tasks || !tasks.length) return;
@@ -47,12 +51,18 @@ export const useTasks = defineStore('tasks', {
             this.todo = tasks.filter((task) => task.status === 'todo');
             this.doing = tasks.filter((task) => task.status === 'doing');
             this.done = tasks.filter((task) => task.status === 'done');
+            
+            this.loading = false;
         },
         
         async addTask(task: TaskForm) {
+            this.loading = true;
+            
             const newTask = await createTask(task);
             
             this[newTask.status].push(newTask);
+            
+            this.loading = false;
         },
         
         async updateTask(task: TaskForm, id: string) {
