@@ -25,3 +25,9 @@ export async function updateTask(task: TaskForm, id: string): Promise<Task> {
     
     return res.data.task;
 }
+
+export async function deleteTask(id: string): Promise<Task> {
+    const res = await axios.delete(`${API_URL}/${id}`);
+    
+    return res.data.task
+}
