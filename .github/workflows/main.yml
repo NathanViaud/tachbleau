@@ -21,4 +21,4 @@ jobs:
       - name: Start development server
         run: npm run dev &
       - name: Run Vitest tests
-        run: npm run vitest
+        run: npm run test
