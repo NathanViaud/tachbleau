@@ -13,7 +13,9 @@ import {
 
 import TaskFormComponent from '~/components/task/Form.vue';
 import { nameToColor, getRelativeDate, isDateInPast } from '~/utils';
+import { useTasks } from '~/stores/tasks.store';
 
+const tasksStore = useTasks();
 
 const props = defineProps<{
     task: Task;
@@ -30,6 +32,19 @@ function onSubmit() {
 const usersStore = useUsers();
 const assignedUser = computed(() => (props.task && props.task.assignedTo) ? usersStore.getUser(props.task.assignedTo) : null);
 
+// const emit = defineEmits<{
+//   (e: 'deleteTask', taskId: string): void;
+// }>();
+
+// function onDeleteTask() {
+//   if (confirm('Are you sure you want to delete this task?')) {
+//     emit('deleteTask', props.task._id);
+//   }
+// }
+
+// function deleteTask(taskId: string) {
+//   tasksStore.deleteTask(taskId);
+// }
 </script>
 
 <template>
@@ -75,6 +90,7 @@ const assignedUser = computed(() => (props.task && props.task.assignedTo) ? user
             <TaskForm ref="taskForm" :task="task" :inside-sheet="true" class="w-full" />
             <SheetClose as-child>
                 <Button @click="onSubmit" type="submit">Edit</Button>
+                <Button variant="destructive" @click="tasksStore.deleteTask(task._id)">Delete</Button>
             </SheetClose>
         </SheetContent>
     </Sheet>

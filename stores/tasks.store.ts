@@ -1,5 +1,5 @@
 import type { Filter, Task, TaskForm } from '~/types';
-import { createTask, getTasks, updateTask } from '~/services';
+import { createTask, getTasks, updateTask, deleteTask } from '~/services';
 
 interface TasksState {
     backlog: Task[];
@@ -114,6 +114,20 @@ export const useTasks = defineStore('tasks', {
             }
             
             return true;
-        }
+        },
+        
+        async deleteTask(id: string) {
+            const deletedTask = await deleteTask(id);
+
+            if (deletedTask.status === 'backlog') {
+                this.backlog = this.backlog.filter(task => task._id !== deletedTask._id);
+            } else if (deletedTask.status === 'todo') {
+                this.todo = this.todo.filter(task => task._id !== deletedTask._id);
+            } else if (deletedTask.status === 'doing') {
+                this.doing = this.doing.filter(task => task._id !== deletedTask._id);
+            } else if (deletedTask.status === 'done') {
+                this.done = this.done.filter(task => task._id !== deletedTask._id);
+            }
+        },
     }
 })
