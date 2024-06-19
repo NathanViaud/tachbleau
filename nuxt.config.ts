@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss", "shadcn-nuxt", "@pinia/nuxt", "@nuxtjs/color-mode"],
+  modules: ["@nuxtjs/tailwindcss", "shadcn-nuxt", "@pinia/nuxt", "@nuxtjs/color-mode", '@nuxt/test-utils/module'],
   shadcn: {
     prefix: '',
     componentDir: './components/ui'
@@ -19,4 +19,5 @@ export default defineNuxtConfig({
     tokenExpiration: process.env.TOKEN_EXPIRES,
     tokenName: process.env.TOKEN_NAME
   },
+
 })
