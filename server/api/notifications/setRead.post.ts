@@ -1,0 +1,29 @@
+import * as z from 'zod';
+import { Notification } from '~/server/models/notification.model';
+
+export default defineEventHandler(async (event) => {
+    const validation = z.object({
+        data: z.array(z.string())
+    });
+
+    const idArray = await readValidatedBody(event, body => validation.safeParse(body));
+
+    if (!idArray.success) {
+        throw createError({
+            statusCode: 400,
+            statusMessage: 'Invalid body'
+        });
+    }
+    try {
+        await Notification.updateMany({ _id: { $in: idArray.data.data  } }, { read: true });
+        return {
+            success: true
+        };
+    }
+    catch {
+        throw createError({
+            statusCode: 500,
+            statusMessage: 'Failed to update notifications.'
+        });
+    }
+});
