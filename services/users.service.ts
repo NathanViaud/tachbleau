@@ -28,6 +28,10 @@ export async function register(email: string, password: string, name: string, jo
     return response.data.user;
 }
 
+export async function logout() {
+    await axios.get('/api/users/logout');
+}
+
 export async function postToken(user: UserWithoutPassword) {
     const response = await axios.post('/api/users/token', {
         ...user

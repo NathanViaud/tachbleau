@@ -5,7 +5,8 @@ const createToken = async (user: UserWithoutPassword) => {
   return jwt.sign(
       {
         id: user._id,
-        email: user.email
+        email: user.email,
+        role: user.role
       },
       config.tokenSecret,
       

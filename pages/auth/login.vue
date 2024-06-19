@@ -3,6 +3,7 @@ import { Card, CardDescription, CardHeader, CardTitle, CardContent } from '~/com
 import { Form, FormControl, FormField, FormLabel } from '~/components/ui/form';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
+import { Loader2 } from 'lucide-vue-next';
 
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
@@ -65,9 +66,14 @@ const onSubmit = form.handleSubmit(async (values) => {
                     </FormItem>
                 </FormField>
 
-                <Button type="submit" class="mt-4">
+                <Button :disabled="usersStore.loggingIn" type="submit" class="mt-4">
+                    <Loader2 v-if="usersStore.loggingIn" class="mr-2 size-4 animate-spin" />
                     Login
                 </Button>
+
+                <div v-if="usersStore.error">
+                    erreur bouffon
+                </div>
             </form>
         </CardContent>
     </Card>

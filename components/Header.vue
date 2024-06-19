@@ -75,11 +75,9 @@ const usersStore = useUsers();
                             </DropdownMenuItem>
 
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem @click="usersStore.logout" as-child>
-                                <NuxtLink to="/auth/login" class="flex">
-                                    <LogOut class="size-4 mr-2" />
-                                    <span>Log out</span>
-                                </NuxtLink>
+                            <DropdownMenuItem @click="usersStore.logout">
+                                <LogOut class="size-4 mr-2" />
+                                <span>Log out</span>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>

@@ -1,5 +1,5 @@
 export default defineEventHandler((event) => {
-    deleteCookie(event, '__session')
+    deleteCookie(event, 'token')
     
     return {
         user: null

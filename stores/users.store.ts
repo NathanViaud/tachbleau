@@ -1,16 +1,20 @@
 import type { SimpleUpdateUser, UpdateUser, UserWithoutPassword } from '~/types/user.type';
-import { deleteUser, getUsers, login, postToken, register, simpleUpdateUser, verifyToken } from '~/services';
+import { deleteUser, getUsers, login, logout, postToken, register, simpleUpdateUser, verifyToken } from '~/services';
 import { updateUser } from '~/services';
 
 interface UsersState {
     users: UserWithoutPassword[];
     currentUser: UserWithoutPassword | null;
+    loggingIn: boolean;
+    error: boolean;
 }
 
 export const useUsers = defineStore('users', {
     state: (): UsersState => ({
         users: [],
         currentUser: null,
+        loggingIn: false,
+        error: false
     }),
     
     getters: {
@@ -21,10 +25,18 @@ export const useUsers = defineStore('users', {
 
     actions: {
         async login(email: string, password: string) {
-            this.currentUser = await login(email, password);
-            if (this.currentUser) {
-                await postToken(this.currentUser);
+            this.loggingIn = true;
+            try {
+                this.currentUser = await login(email, password);
+                if (this.currentUser) {
+                    await postToken(this.currentUser);
+                }
+                this.error = false;
+            } catch {
+                this.currentUser = null;
+                this.error = true;
             }
+            this.loggingIn = false;
         },
 
         async register(email: string, password: string, name: string, job: string, role: string) {
@@ -32,9 +44,12 @@ export const useUsers = defineStore('users', {
         },
         
         async logout() {
+            await logout();
+            
             this.currentUser = null;
             
-            // getLogout
+            const router = useRouter();
+            await router.push('/auth/login');
         },
         
         async fetchCurrentUser(token: string) {

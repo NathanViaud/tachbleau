@@ -5,7 +5,7 @@ export default defineNuxtRouteMiddleware(async (_to, from) => {
     
     const usersStore = useUsers();
     if (token.value && !usersStore.currentUser) {
-        // await usersStore.fetchCurrentUser(token.value);
+        await usersStore.fetchCurrentUser(token.value);
     } else if (usersStore.currentUser && !token.value) {
         await usersStore.logout();
     }
