@@ -49,6 +49,11 @@ function handleAdded(data: { id: string, status: Task['status'] }) {
                 </RouterLink>
             </Button>
         </div>
-        <Kanban :columns="columns" @added="handleAdded" :filter-project-id="filterProjectId" />
+        <Kanban
+            :columns="columns"
+            @added="handleAdded"
+            :filter-project-id="filterProjectId"
+            :loading="tasksStore.loading"
+        />
     </div>
 </template>

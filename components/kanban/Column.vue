@@ -2,6 +2,7 @@
 import { STATUS_OBJ, type Task } from '~/types';
 import draggable from 'vuedraggable';
 import { ScrollArea } from '~/components/ui/scroll-area'
+import { Skeleton } from '~/components/ui/skeleton';
 
 const tasksStore = useTasks();
 
@@ -10,6 +11,7 @@ defineProps<{
     status: Task['status'];
     tasks: Task[];
     filterProjectId?: string;
+    loading: boolean;
 }>();
 
 const emits = defineEmits<{
@@ -32,7 +34,7 @@ function handleChange(evt: any) {
 </script>
 
 <template>
-    <div class="flex flex-col gap-4 w-1/4 bg-muted/40 h-full p-3 rounded">
+    <div v-if="!loading" class="flex flex-col gap-4 w-1/4 bg-muted/40 h-full p-3 rounded">
         <div class="flex gap-2 items-center">
             <component :is="STATUS_OBJ.find((item) => item.value === status)?.icon" class="h-4 w-4" />
             <h2>{{ name }}</h2>
@@ -52,6 +54,8 @@ function handleChange(evt: any) {
             </template>
         </draggable>
     </div>
+
+    <Skeleton v-else class="w-1/4 h-full rounded"/>
 </template>
 
 <style scoped>
