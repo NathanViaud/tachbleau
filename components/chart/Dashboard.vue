@@ -74,7 +74,7 @@ const tickFormat = (tick: number) => assignedToNames.value[tick];
 <template>
   <div class="m-auto">
     <VisXYContainer :data="data">
-      <VisStackedBar :roundedCorners="true" orientation="horizontal" :barPadding="0.2" :x="x" :y="y" :color="color" />
+      <VisStackedBar :roundedCorners="8" orientation="horizontal" :x="x" :y="y" :color="color" />
       <VisAxis type="x" label="Forecast hours / Maximum hours" />
       <VisAxis type="y" :tickLine="false" :gridLine="false" :tickFormat="tickFormat" />
     </VisXYContainer>
