@@ -3,17 +3,17 @@ import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
 import { projectSchema } from '~/schema';
 import type { Project, ProjectForm } from '~/types';
-import { dateToCalendar } from '~/utils';
-import { createProject } from '~/services';
+import { dateToCalendar, calendarToDate } from '~/utils';
 import { Button } from '~/components/ui/button';
-
-const formSchema = toTypedSchema(projectSchema);
-
-const router = useRouter();
 
 const props = defineProps<{
     project?: Project
 }>();
+
+const projectsStore = useProjects();
+const router = useRouter();
+
+const formSchema = toTypedSchema(projectSchema);
 
 const form = useForm({
     validationSchema: formSchema
@@ -39,9 +39,10 @@ const onSubmit = form.handleSubmit(async (values) => {
     }
 
     if(props.project) {
-        // update project
+        await projectsStore.updateProject(newProject, props.project._id);
+        await router.push('/projects')
     } else {
-        await createProject(newProject);
+        await projectsStore.createProject(newProject);
         await router.push('/projects');
     }
 })

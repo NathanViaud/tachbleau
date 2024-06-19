@@ -7,7 +7,7 @@ definePageMeta({
 <template>
     <div class="mx-12">
         <div class="grid grid-cols-3 gap-4 flex-col">
-            <div class="flex w-full justify-between col-span-2 px-12">
+            <div class="flex w-full justify-between col-span-2 px-12 gap-4">
                 <indexCard 
                     title="Gestion des tâches / KANBAN" 
                     description="Création, modification et suppression des tâches. Assignation des tâches"

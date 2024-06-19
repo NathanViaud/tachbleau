@@ -25,3 +25,9 @@ export async function updateProject(project: ProjectForm, id: string): Promise<P
     
     return res.data.project;
 }
+
+export async function deleteProject(id: string): Promise<Project> {
+    const res = await axios.delete(`${API_URL}/${id}`);
+    
+    return res.data.project
+}

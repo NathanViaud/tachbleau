@@ -3,6 +3,7 @@ import type { Project } from '~/types';
 import { Progress } from '~/components/ui/progress';
 import { useTasks } from '~/stores/tasks.store';
 import { useProjects } from '~/stores/projects.store';
+import { PenLine, Trash2 } from 'lucide-vue-next';
 
 const props = defineProps<{
     project: Project;
@@ -19,7 +20,7 @@ const router = useRouter();
 <template>
     <div
         @click="router.push(`/tasks/${project._id}`)"
-        class="border rounded border-muted p-4 flex gap-2 items-center cursor-pointer transition project-item"
+        class="border rounded border-muted p-4 flex gap-5 items-center cursor-pointer transition project-item"
         v-if="tasksStore.tasks.length"
     >
         <div class="flex flex-col flex-1">
@@ -34,6 +35,35 @@ const router = useRouter();
                 <span>{{ projectAdvancement.done }} / {{ projectAdvancement.tasks }} tasks</span>
             </div>
         </div>
+
+        <DropdownMenu>
+            <DropdownMenuTrigger as-child>
+               <Button size="icon" variant="outline" @click.stop>
+                   <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="size-5">
+                       <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                   </svg>
+               </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent class="w-56">
+                <DropdownMenuLabel>Options</DropdownMenuLabel>
+
+                <DropdownMenuSeparator />
+
+                <DropdownMenuItem as-child>
+                    <NuxtLink :to="`/projects/${project._id}`">
+                        <PenLine class="size-4 mr-2" />
+                        <span>Edit</span>
+                    </NuxtLink>
+                </DropdownMenuItem>
+
+                <DropdownMenuSeparator />
+
+                <DropdownMenuItem @click="projectsStore.deleteProject(project._id)">
+                    <Trash2 class="size-4 mr-2" />
+                    <span>Delete</span>
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
     </div>
 </template>
 
