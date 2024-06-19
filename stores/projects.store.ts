@@ -4,11 +4,13 @@ import { createProject, deleteProject, getProjects, updateProject } from '~/serv
 
 interface ProjectsState {
     projects: Project[];
+    loading: boolean;
 }
 
 export const useProjects = defineStore('projects', {
     state: (): ProjectsState => ({
-        projects: []
+        projects: [],
+        loading: false
     }),
     
     getters: {
@@ -19,25 +21,33 @@ export const useProjects = defineStore('projects', {
     
     actions: {
         async fetchProjects() {
+            this.loading = true;
             this.projects = await getProjects();
+            this.loading = false;
         },
         
         async createProject(project: ProjectForm) {
+            this.loading = true;
             const newProject = await createProject(project);
             
             this.projects.push(newProject);
+            this.loading = false;
         },
         
         async updateProject(project: ProjectForm, id: string) {
+            this.loading = true
             const updatedProject = await updateProject(project, id);
             
             this.projects = this.projects.map(project => project._id === updatedProject._id ? updatedProject : project);
+            this.loading = false;
         },
         
         async deleteProject(id: string) {
+            this.loading = true;
             const deletedProject = await deleteProject(id);
             
             this.projects = this.projects.filter(project => project._id !== deletedProject._id);
+            this.loading = false;
         },
         
         getProjectTasks(projectId: string) {
