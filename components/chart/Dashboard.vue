@@ -1,60 +1,82 @@
 <script setup lang="ts">
-import { VisXYContainer, VisStackedBar, VisAxis, VisGroupedBar } from '@unovis/vue'
+import { VisXYContainer, VisStackedBar, VisAxis } from '@unovis/vue';
 import { computed } from 'vue';
-//import { useUserStore } from '@/stores/user.store.ts';
+import { useTasks } from '@/stores/tasks.store';
+import { useUsers } from '@/stores/users.store';
 
-//const userStore = useUserStore();
+type DataRecord = { x: number, y: number, maximum: number, name: string };
+
+const tasksStore = useTasks();
+const userStore = useUsers();
 
 const maximum = {
     hours: 35,
 }
 
-const user = [
-    'Julien',
-    'Nathan',
-    'Bob',
-    'Oussama',
-    'Amine',
-    'SophieLaGirafe'
-]
+const tasks = computed(() => [...tasksStore.todo, ...tasksStore.doing]);
 
-type DataRecord = { x: number, y: number, y1: number, maximum: number, name: string }
-const data = computed(() => [
-    { x: 0, y: 28, maximum: maximum.hours },
-    { x: 1, y: 31, maximum: maximum.hours },
-    { x: 2, y: 24, maximum: maximum.hours },
-    { x: 3, y: 7, maximum: maximum.hours },
-    { x: 4, y: 39, maximum: maximum.hours },
-    { x: 5, y: 12, maximum: maximum.hours },
-])
+const data = computed(() => {
+  const res: DataRecord[] = [];
+  const assignedTos = new Set();
 
-const x = (d: DataRecord) => d.x
-const y = [
-    (d: DataRecord) => d.y,
-    (d: DataRecord) => d.y1,
-]
+  // Calculer la somme des durées pour chaque utilisateur
+  tasks.value.forEach((task) => {
+    if (task.assignedTo) {
+      assignedTos.add(task.assignedTo);
+      const item = res.find((item) => task.assignedTo === item.x);
+      if (item) {
+        item.y += task.duration;
+      } else {
+        res.push({
+          x: Array.from(assignedTos).indexOf(task.assignedTo) + 1,
+          y: task.duration,
+          maximum: maximum.hours,
+          name: getUserName(task.assignedTo),
+        });
+      }
+    }
+  });
+
+  return res;
+});
+
+const x = (d: DataRecord) => d.x;
+const y = [(d: DataRecord) => d.y];
 
 function getColor(d: DataRecord) {
-    if(d.y > 35) {
-        return '#ef4444'
-    } else if(d.y > 35 * 0.8 ) {
-        return '#fbbf24'
-    } else {
-        return '#10b981'
-    }
+  if (d.y > 35) {
+    return '#ef4444';
+  } else if (d.y > 35 * 0.8) {
+    return '#fbbf24';
+  } else {
+    return '#10b981';
+  }
 }
 
-const color = (d: DataRecord) => getColor(d)
-const tickFormat = (tick: number) => user[tick]
+const color = (d: DataRecord) => getColor(d);
 
+function getUserName(userId: string) {
+  const user = userStore.users.find((user) => user._id === userId);
+  return user ? user.name : 'Unknown';
+}
+
+const assignedToNames = computed(() => {
+  const assignedToNames = {};
+  data.value.forEach((item) => {
+    assignedToNames[item.x] = item.name;
+  });
+  return assignedToNames;
+});
+
+const tickFormat = (tick: number) => assignedToNames.value[tick];
 </script>
 
 <template>
-    <div class="m-auto">
-        <VisXYContainer :data="data">
-            <VisStackedBar :roundedCorners="true" orientation="horizontal" :barPadding="0.2" :x="x" :y="y" :color="color" />
-            <VisAxis type='x' label='Forecast hours / Maximum hours' />
-            <VisAxis type='y' :tickFormat="tickFormat" />
-        </VisXYContainer>
-    </div>
+  <div class="m-auto">
+    <VisXYContainer :data="data">
+      <VisStackedBar :roundedCorners="true" orientation="horizontal" :barPadding="0.2" :x="x" :y="y" :color="color" />
+      <VisAxis type="x" label="Forecast hours / Maximum hours" />
+      <VisAxis type="y" :tickLine="false" :gridLine="false" :tickFormat="tickFormat" />
+    </VisXYContainer>
+  </div>
 </template>
