@@ -3,7 +3,7 @@ import { useProjects } from '~/stores/projects.store';
 import { useTasks } from '~/stores/tasks.store';
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
-    if (to.path !== '/' && to.path !== '/auth/login') {
+    if (to.path !== '/auth/login') {
         const token = useCookie('token');
 
         if (!token.value) return;

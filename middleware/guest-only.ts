@@ -5,5 +5,6 @@ export default defineNuxtRouteMiddleware(async (_to, _from) => {
     
     if (usersStore.currentUser) {
         return navigateTo({ name: "index" })
+        // reload page
     }
 })
