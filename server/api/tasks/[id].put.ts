@@ -16,6 +16,7 @@ export default defineEventHandler(async (event) => {
     try {
         const task = await Task.findByIdAndUpdate(id, body.data, { new: true });
         
+        
         return { task }
     } catch(e) {
         console.log('Failed to update task.', e);
