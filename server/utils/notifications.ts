@@ -1,11 +1,13 @@
-import { notificationSchema } from '~/schema';
+import { Notification } from '~/server/models/notification.model';
 
-export function createNotifications(title: string, message: string, userId: string) {
-    const newNotification = notificationSchema.safeParse({
+export async function createNotification(title: string, message: string, userId: string) {
+    const newNotification = {
         title,
         message,
         read: false,
         assignedTo: userId
-    })
+    };
+    
     const notification = new Notification(newNotification);
+    await notification.save()
 }
