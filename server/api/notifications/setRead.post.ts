@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
         });
     }
     try {
-        await Notification.updateMany({ _id: { $in: idArray.data.data  } }, { read: true });
+        const res = await Notification.updateMany({ _id: { $in: idArray.data.data  } }, { read: true });
         return {
             success: true
         };
