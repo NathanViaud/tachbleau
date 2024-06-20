@@ -7,6 +7,8 @@ import {
 import { Bell } from "lucide-vue-next"
 import { Separator } from '@/components/ui/separator'
 import { useNotifications } from '~/stores/notifications.store';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { notificationSchema } from '~/schema';
 
 const notificationsStore = useNotifications();
 
@@ -32,14 +34,39 @@ function change(e: any) {
         </Button>
     </PopoverTrigger>
     <PopoverContent>
-        <ol class="flex flex-col gap-1">
-            <template v-for="(notification, index) in notificationsStore.unreadNotifications">
-                <li class="flex flex-col gap-1 text-sm">
-                    <strong>{{ notification.title}}:</strong> {{ notification.message }}
-                </li>
-                <Separator v-if="index !== notificationsStore.unreadNotifications.length - 1" />
-            </template>
-        </ol>
+        <Tabs default-value="account">
+            <TabsList class="flex w-full mb-4">
+                <TabsTrigger value="unread" class="flex-1">
+                    Unread
+                </TabsTrigger>
+                <TabsTrigger value="all" class="flex-1">
+                    All
+                </TabsTrigger>
+            </TabsList>
+            <TabsContent value="unread">
+                <ol class="flex flex-col gap-1" v-if="notificationsStore.unreadNotifications.length">
+                    <template v-for="(notification, index) in notificationsStore.unreadNotifications">
+                        <li class="flex flex-col gap-1 text-sm">
+                            <strong>{{ notification.title}}:</strong> {{ notification.message }}
+                        </li>
+                        <Separator v-if="index !== notificationsStore.unreadNotifications.length - 1" />
+                    </template>
+                </ol>
+                <p v-else>
+                    No unread notifications
+                </p>
+            </TabsContent>
+            <TabsContent value="all">
+                <ol class="flex flex-col gap-1">
+                    <template v-for="(notification, index) in notificationsStore.notifications">
+                        <li class="flex flex-col gap-1 text-sm">
+                            <strong>{{ notification.title}}:</strong> {{ notification.message }}
+                        </li>
+                        <Separator v-if="index !== notificationsStore.unreadNotifications.length - 1" />
+                    </template>
+                </ol>
+            </TabsContent>
+        </Tabs>
     </PopoverContent>
   </Popover>
 </template>

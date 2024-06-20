@@ -7,7 +7,6 @@ export default defineEventHandler(async (event) => {
     });
 
     const idArray = await readValidatedBody(event, body => validation.safeParse(body));
-    console.log('idArray',idArray.data.data)
 
     if (!idArray.success) {
         throw createError({
@@ -17,7 +16,6 @@ export default defineEventHandler(async (event) => {
     }
     try {
         const res = await Notification.updateMany({ _id: { $in: idArray.data.data  } }, { read: true });
-        console.log('res', res);
         return {
             success: true
         };
