@@ -23,10 +23,11 @@ const data = computed(() => {
   tasks.value.forEach((task) => {
     if (task.assignedTo) {
       assignedTos.add(task.assignedTo);
-      const item = res.find((item) => task.assignedTo === item.x);
+      const item = res.find((item) => Array.from(assignedTos).indexOf(task.assignedTo) + 1 === item.x);
       if (item) {
         item.y += task.duration;
       } else {
+        console.log(task.duration);
         res.push({
           x: Array.from(assignedTos).indexOf(task.assignedTo) + 1,
           y: task.duration,
