@@ -8,7 +8,6 @@ import { Loader2 } from 'lucide-vue-next';
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 import { useForm } from 'vee-validate';
-import type { UserInput } from '~/types/user.type';
 import { useUsers } from '~/stores/users.store';
 
 definePageMeta({
@@ -39,42 +38,49 @@ const onSubmit = form.handleSubmit(async (values) => {
 </script>
 
 <template>
-    <Card class="max-w-xl mx-auto w-full">
-        <CardHeader>
-            <CardTitle>Login</CardTitle>
-            <CardDescription>Enter your credentials to login</CardDescription>
-        </CardHeader>
-        <CardContent>
-            <form @submit="onSubmit" class="flex flex-col gap-2">
-                <FormField v-slot="{ componentField }" name="email">
-                    <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                            <Input type="email" placeholder="Email" v-bind="componentField" />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
+    <div>
+        <!--    To prevent fragment on redirection    -->
+        <p></p>
+        <p></p>
+        <!--    !end    -->
 
-                <FormField v-slot="{ componentField }" name="password">
-                    <FormItem>
-                        <FormLabel>Password</FormLabel>
-                        <FormControl>
-                            <Input type="password" placeholder="Password" v-bind="componentField" />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
+        <Card class="max-w-xl mx-auto w-full">
+            <CardHeader>
+                <CardTitle>Login</CardTitle>
+                <CardDescription>Enter your credentials to login</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <form @submit="onSubmit" class="flex flex-col gap-2">
+                    <FormField v-slot="{ componentField }" name="email">
+                        <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                                <Input type="email" placeholder="Email" v-bind="componentField" />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
 
-                <Button :disabled="usersStore.loggingIn" type="submit" class="mt-4">
-                    <Loader2 v-if="usersStore.loggingIn" class="mr-2 size-4 animate-spin" />
-                    Login
-                </Button>
+                    <FormField v-slot="{ componentField }" name="password">
+                        <FormItem>
+                            <FormLabel>Password</FormLabel>
+                            <FormControl>
+                                <Input type="password" placeholder="Password" v-bind="componentField" />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
 
-                <div v-if="usersStore.error">
-                    erreur bouffon
-                </div>
-            </form>
-        </CardContent>
-    </Card>
+                    <Button :disabled="usersStore.loggingIn" type="submit" class="mt-4">
+                        <Loader2 v-if="usersStore.loggingIn" class="mr-2 size-4 animate-spin" />
+                        Login
+                    </Button>
+
+                    <div v-if="usersStore.error">
+                        erreur bouffon
+                    </div>
+                </form>
+            </CardContent>
+        </Card>
+    </div>
 </template>
