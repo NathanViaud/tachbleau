@@ -9,6 +9,8 @@ import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 import { useForm } from 'vee-validate';
 import { useUsers } from '~/stores/users.store';
+import { Alert, AlertTitle, AlertDescription } from '~/components/ui/alert';
+import { AlertCircle } from 'lucide-vue-next';
 
 definePageMeta({
     middleware: 'guest-only'
@@ -44,6 +46,17 @@ const onSubmit = form.handleSubmit(async (values) => {
         <p></p>
         <!--    !end    -->
 
+        <Alert class="max-w-xl mx-auto w-full mb-5" v-if="usersStore.error" variant="destructive">
+            <AlertCircle class="size-4" />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription v-if="usersStore.error === 'invalid'">
+                Invalid credentials
+            </AlertDescription>
+            <AlertDescription v-else-if="usersStore.error === 'expired'">
+                Your session have expired
+            </AlertDescription>
+        </Alert>
+
         <Card class="max-w-xl mx-auto w-full">
             <CardHeader>
                 <CardTitle>Login</CardTitle>
@@ -76,9 +89,9 @@ const onSubmit = form.handleSubmit(async (values) => {
                         Login
                     </Button>
 
-                    <div v-if="usersStore.error">
-                        erreur bouffon
-                    </div>
+<!--                    <div v-if="usersStore.error">-->
+<!--                        erreur bouffon-->
+<!--                    </div>-->
                 </form>
             </CardContent>
         </Card>

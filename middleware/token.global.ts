@@ -8,5 +8,6 @@ export default defineNuxtRouteMiddleware(async (_to, from) => {
         await usersStore.fetchCurrentUser(token.value);
     } else if (usersStore.currentUser && !token.value) {
         await usersStore.logout();
+        usersStore.error = 'expired';
     }
 })

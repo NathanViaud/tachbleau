@@ -10,7 +10,7 @@ const createToken = async (user: UserWithoutPassword) => {
       },
       config.tokenSecret,
       {
-        expiresIn: "1h"
+        expiresIn: "24h"
       }
   );
 }

@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
     }
     
     const token = await createToken(user);
-    setCookie(event, 'token', token);
+    setCookie(event, 'token', token, { maxAge: 60 * 60 * 24 });
     
     return { token }
 })

@@ -6,7 +6,7 @@ interface UsersState {
     users: UserWithoutPassword[];
     currentUser: UserWithoutPassword | null;
     loggingIn: boolean;
-    error: boolean;
+    error: 'invalid' | 'expired' | null;
 }
 
 export const useUsers = defineStore('users', {
@@ -14,7 +14,7 @@ export const useUsers = defineStore('users', {
         users: [],
         currentUser: null,
         loggingIn: false,
-        error: false
+        error: null
     }),
     
     getters: {
@@ -31,10 +31,10 @@ export const useUsers = defineStore('users', {
                 if (this.currentUser) {
                     await postToken(this.currentUser);
                 }
-                this.error = false;
+                this.error = null;
             } catch {
                 this.currentUser = null;
-                this.error = true;
+                this.error = 'invalid';
             }
             this.loggingIn = false;
         },
