@@ -40,7 +40,9 @@ export const useUsers = defineStore('users', {
         },
 
         async register(email: string, password: string, name: string, job: string, role: string) {
-            this.users.push(await register(email, password, name, job, role));
+            const newUser = await register(email, password, name, job, role);
+            if (!newUser) return;
+            this.users.push(newUser);
         },
         
         async logout() {
@@ -57,23 +59,29 @@ export const useUsers = defineStore('users', {
         },
         
         async fetchUsers() {
-            this.users = await getUsers();
+            const users = await getUsers();
+            if (!users) return;
+            
+            this.users = users;
         },
         
         async deleteUser(id: string) {
             const deletedUser = await deleteUser(id);
+            if (!deletedUser) return;
             
             this.users = this.users.filter(user => user._id !== deletedUser._id);
         },
         
         async updateUser(id: string, user: UpdateUser) {
             const updatedUser = await updateUser(id, user);
+            if (!updatedUser) return;
             
             this.users = this.users.map(user => user._id === updatedUser._id ? updatedUser : user);
         },
         
         async updateProfile(user: SimpleUpdateUser) {
             const updatedUser = await simpleUpdateUser(user);
+            if (!updatedUser) return;
             
             this.currentUser = updatedUser;
             this.users = this.users.map(user => user._id === updatedUser._id ? updatedUser : user);

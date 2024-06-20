@@ -59,6 +59,7 @@ export const useTasks = defineStore('tasks', {
             this.loading = true;
             
             const newTask = await createTask(task);
+            if (!newTask) return;
             
             this[newTask.status].push(newTask);
             
@@ -68,6 +69,7 @@ export const useTasks = defineStore('tasks', {
         async updateTask(task: TaskForm, id: string) {
             const oldStatus: Task['status'] | undefined = this.tasks.find((task) => task._id === id)?.status;
             const updatedTask = await updateTask(task, id);
+            if (!updatedTask) return;
             
             const index = this[task.status].findIndex((task) => task._id === id);
             
@@ -128,6 +130,7 @@ export const useTasks = defineStore('tasks', {
         
         async deleteTask(id: string) {
             const deletedTask = await deleteTask(id);
+            if (!deletedTask) return;
 
             if (deletedTask.status === 'backlog') {
                 this.backlog = this.backlog.filter(task => task._id !== deletedTask._id);
