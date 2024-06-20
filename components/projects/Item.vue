@@ -20,11 +20,11 @@ const router = useRouter();
 <template>
     <div
         @click="router.push(`/tasks/${project._id}`)"
-        class="border rounded border-muted p-4 flex gap-5 items-center cursor-pointer transition project-item"
+        class="border rounded border-muted p-4 flex gap-5 items-center cursor-pointer transition-all project-item group"
         v-if="tasksStore.tasks.length"
     >
         <div class="flex flex-col flex-1">
-            <h2 class="text-lg font-semibold">{{ project.title }}</h2>
+            <h2 class="text-lg font-semibold group-hover:underline transition-all">{{ project.title }}</h2>
             <span class="text-muted-foreground">{{ formatDate(project.startDate) }} - {{ formatDate(project.endDate) }}</span>
         </div>
 

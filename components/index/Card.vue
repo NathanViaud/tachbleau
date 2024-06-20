@@ -23,7 +23,7 @@ defineProps({
 </script>
 
 <template>
-  <Card class="w-72 h-40 cursor-pointer border-2 hover:bg-card-foreground/5" as-child>
+  <Card class="w-72 h-40 cursor-pointer border-2 hover:bg-card-foreground/5 transition" as-child>
     <nuxt-link :to="toRoute">
       <CardHeader>
       <CardTitle>{{ title }}</CardTitle>

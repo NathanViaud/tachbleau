@@ -41,15 +41,15 @@ function handleChange(evt: any) {
         </div>
 
         <draggable
-            class="flex flex-grow flex-col gap-3 mt-4 overflow-y-auto"
+            class="flex flex-grow flex-col mt-4 gap-3 overflow-y-auto"
             :list="tasks"
             item-key="_id"
             v-bind="dragOptions"
             @change="handleChange"
         >
             <template #item="{ element }">
-                <div class="item">
-                    <KanbanCard :task="element" v-if="tasksStore.passesFilters(element, filterProjectId)" />
+                <div class="item" v-if="tasksStore.passesFilters(element, filterProjectId)">
+                    <KanbanCard :task="element" />
                 </div>
             </template>
         </draggable>

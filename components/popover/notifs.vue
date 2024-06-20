@@ -62,7 +62,7 @@ function change(e: any) {
                         <li class="flex flex-col gap-1 text-sm">
                             <strong>{{ notification.title}}:</strong> {{ notification.message }}
                         </li>
-                        <Separator v-if="index !== notificationsStore.unreadNotifications.length - 1" />
+                        <Separator v-if="index !== notificationsStore.notifications.length - 1" />
                     </template>
                 </ol>
             </TabsContent>
