@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
         { url: '/api/tasks/.*', method: 'DELETE' },
         { url: '/api/tasks/.*', method: 'GET' },
         { url: '/api/tasks/.*', method: 'PUT' },
-        { url: '/api/tasks', method: 'POST' },
+        { url: '/api/tasks/create', method: 'POST' },
         { url: '/api/tasks', method: 'GET' },
         
         // Users
