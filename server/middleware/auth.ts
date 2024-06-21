@@ -44,9 +44,9 @@ export default defineEventHandler(async (event) => {
         if (isGuestRoute) return;
         
         const token = getCookie(event, 'token');
-        if (!token) return { status: 401, body: 'Unauthorized user no token' };
+        if (!token) throw createError({ status: 401 });
         const verifiedToken = await verifyToken(token) as JwtPayload;
-        if (!verifiedToken) return { status: 401, body: 'Unauthorized user no user' };
+        if (!verifiedToken) throw createError({ status: 401 });
         
         const isUserRoute = userRoutes.find(route => new RegExp(`^${route.url}$`).test(event.path) && event.method === route.method);
         if (isUserRoute) return;
@@ -54,11 +54,10 @@ export default defineEventHandler(async (event) => {
         const isAdminRoute = adminRoutes.find(route => new RegExp(`^${route.url}$`).test(event.path) && event.method === route.method);
         if (isAdminRoute) {
             if (verifiedToken.role === 'admin') return;
-            return { status: 403, body: 'Unauthorized user not admin' };
+            throw createError({ status: 403 })
         }
         else {
-            console.log('This route is not registered', event.path, event.method)
-            return { status: 404, body: 'This route is not registered' }
+            throw createError({ status: 404, message: 'This route is not registered' });
         }
     }
 })
