@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
         { url: '/api/projects/.*', method: 'DELETE' },
         { url: '/api/projects/.*', method: 'GET' },
         { url: '/api/projects/.*', method: 'PUT' },
-        { url: '/api/projects', method: 'POST' },
+        { url: '/api/projects/create', method: 'POST' },
         { url: '/api/projects', method: 'GET' },
         
         // Tasks
@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
         // Users
         { url: '/api/users', method: 'GET' },
         { url: '/api/users/.*', method: 'GET' },
-        { url: '/api/users/logout', method: 'POST' },
+        { url: '/api/users/logout', method: 'GET' },
         { url: '/api/users/update', method: 'PUT' },
         
         // Notifications
