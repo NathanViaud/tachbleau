@@ -1,7 +1,6 @@
 <script>
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
-// const dayGridPlugin = (await import('@fullcalendar/daygrid')).default;
 import interactionPlugin from '@fullcalendar/interaction'
 
 export default {
@@ -27,6 +26,10 @@ export default {
     }
   }
 }
+
+definePageMeta({
+    middleware: 'user-only'
+});
 </script>
 <template>
   <FullCalendar :options="calendarOptions" />
