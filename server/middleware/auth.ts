@@ -12,20 +12,20 @@ export default defineEventHandler(async (event) => {
         { url: '/api/projects/.*', method: 'DELETE' },
         { url: '/api/projects/.*', method: 'GET' },
         { url: '/api/projects/.*', method: 'PUT' },
-        { url: '/api/projects', method: 'POST' },
+        { url: '/api/projects/create', method: 'POST' },
         { url: '/api/projects', method: 'GET' },
         
         // Tasks
         { url: '/api/tasks/.*', method: 'DELETE' },
         { url: '/api/tasks/.*', method: 'GET' },
         { url: '/api/tasks/.*', method: 'PUT' },
-        { url: '/api/tasks', method: 'POST' },
+        { url: '/api/tasks/create', method: 'POST' },
         { url: '/api/tasks', method: 'GET' },
         
         // Users
         { url: '/api/users', method: 'GET' },
         { url: '/api/users/.*', method: 'GET' },
-        { url: '/api/users/logout', method: 'POST' },
+        { url: '/api/users/logout', method: 'GET' },
         { url: '/api/users/update', method: 'PUT' },
         
         // Notifications
@@ -44,9 +44,9 @@ export default defineEventHandler(async (event) => {
         if (isGuestRoute) return;
         
         const token = getCookie(event, 'token');
-        if (!token) return { status: 401, body: 'Unauthorized user no token' };
+        if (!token) throw createError({ status: 401 });
         const verifiedToken = await verifyToken(token) as JwtPayload;
-        if (!verifiedToken) return { status: 401, body: 'Unauthorized user no user' };
+        if (!verifiedToken) throw createError({ status: 401 });
         
         const isUserRoute = userRoutes.find(route => new RegExp(`^${route.url}$`).test(event.path) && event.method === route.method);
         if (isUserRoute) return;
@@ -54,11 +54,10 @@ export default defineEventHandler(async (event) => {
         const isAdminRoute = adminRoutes.find(route => new RegExp(`^${route.url}$`).test(event.path) && event.method === route.method);
         if (isAdminRoute) {
             if (verifiedToken.role === 'admin') return;
-            return { status: 403, body: 'Unauthorized user not admin' };
+            throw createError({ status: 403 })
         }
         else {
-            console.log('This route is not registered', event.path, event.method)
-            return { status: 404, body: 'This route is not registered' }
+            throw createError({ status: 404, message: 'This route is not registered' });
         }
     }
 })

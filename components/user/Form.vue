@@ -37,12 +37,11 @@ onMounted(() => {
 })
 
 const onSubmit = form.handleSubmit(async (values) => {
-    // const { email, name, job, role } = values;
     const { name, job } = values;
 
     if (!props.user) {
         // @ts-ignore
-        const { password } = values;
+        const { password, email, role } = values;
         await usersStore.register(email, password, name, job, role);
     } else {
         if (props.profile) {
