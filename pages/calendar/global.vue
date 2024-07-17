@@ -29,6 +29,5 @@
 // }
 </script>
 <template>
-  {# <FullCalendar :options="calendarOptions" /> #}
   <h1>Calendar</h1>
 </template>
