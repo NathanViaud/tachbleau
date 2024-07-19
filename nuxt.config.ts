@@ -17,7 +17,7 @@ export default defineNuxtConfig({
   colorMode: {
     classSuffix: ''
   },
-  css: ["~/assets/css/typography.css", "~/assets/css/base.css", '~/assets/css/flow.css'],
+  css: ["~/assets/css/typography.css", "~/assets/css/base.css", '~/assets/css/flow.css', 'assets/css/calendar.css'],
   runtimeConfig: {
     // Will be available in both server and client
     tokenSecret: process.env.TOKEN_SECRET,

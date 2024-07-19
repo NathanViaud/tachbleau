@@ -1,0 +1,43 @@
+.fc-button-primary {
+    @apply bg-primary text-background !important;
+}
+
+.fc-button-primary:disabled {
+    @apply bg-primary/50 text-white !important;
+}
+
+.fc-scrollgrid {
+    @apply rounded border !important;
+}
+
+.fc-scrollgrid tbody {
+    @apply border-0 !important;
+}
+
+.fc-scrollgrid tr > td:last-child {
+    @apply border-r-0 !important;
+}
+
+.fc-scrollgrid tr:last-child > td {
+    @apply border-b-0 !important;
+}
+
+.fc-scrollgrid th {
+    @apply border-r-0 !important;
+}
+
+.fc-media-screen {
+    @apply max-h-[80%] !important;
+}
+
+.fc-daygrid-block-event {
+    @apply bg-primary border-0 !important;
+}
+
+.fc-event-title-container {
+    @apply text-background !important;
+}
+
+.fc-daygrid-dot-event {
+    @apply bg-muted !important;
+}
