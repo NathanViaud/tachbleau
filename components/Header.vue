@@ -26,7 +26,7 @@ async function logout() {
 </script>
 
 <template>
-    <header class="border-b-2 border-b-muted pt-2 pb-3 px-3 align-center bg w-full fixed z-10 top-0 backdrop-blur-lg">
+    <header class="border-b-2 border-b-muted pt-2 pb-3 px-3 align-center bg w-full sticky z-10 top-0 backdrop-blur-lg">
         <div class="flex flex-row gap-5 items-center">
             <Button variant="ghost" as-child class="text-2xl font-bold px-4 py-8 flex gap-2">
                 <NuxtLink to="/">
