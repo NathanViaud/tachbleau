@@ -49,7 +49,7 @@ async function logout() {
 
                     <PopoverNotifs v-if="user" />
                     <Button v-if="user" variant="ghost" size="icon" class="size-14 rounded-full" as-child>
-                        <NuxtLink to="/calendar/global">
+                        <NuxtLink to="/calendar">
                             <h2>Salut</h2>
                         </NuxtLink>
                     </Button>
