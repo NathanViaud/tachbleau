@@ -3,7 +3,7 @@ import type { Project } from '~/types';
 import { Progress } from '~/components/ui/progress';
 import { useTasks } from '~/stores/tasks.store';
 import { useProjects } from '~/stores/projects.store';
-import { PenLine, Trash2 } from 'lucide-vue-next';
+import { PenLine, Trash2, Waypoints } from 'lucide-vue-next';
 
 const props = defineProps<{
     project: Project;
@@ -64,6 +64,12 @@ const router = useRouter();
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
+
+        <Button size="icon" as-child variant="outline" @click.stop>
+            <NuxtLink :to="`/mindmap/${project._id}`">
+                <Waypoints class="size-5" />
+            </NuxtLink>
+        </Button>
     </div>
 </template>
 

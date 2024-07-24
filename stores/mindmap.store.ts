@@ -6,6 +6,7 @@ import { nanoid } from 'nanoid';
 
 interface MindmapState {
     connected: boolean;
+    currentRoom: string | null;
     nodes: Node[]
     edges: Edge[]
 }
@@ -13,6 +14,7 @@ interface MindmapState {
 export const useMindmap = defineStore('mindmap', {
     state: (): MindmapState => ({
         connected: false,
+        currentRoom: null,
         nodes: [],
         edges: [],
     }),
@@ -34,7 +36,15 @@ export const useMindmap = defineStore('mindmap', {
         },
         
         bindEvents() {
-            socket.emit('mindmap:get')
+            socket.on('room:joined', (roomId: string) => {
+                this.currentRoom = roomId
+                socket.emit('mindmap:get', this.currentRoom)
+            })
+            
+            socket.on('room:left', () => {
+                this.currentRoom = null;
+                this.reset();
+            });
 
             socket.on('mindmap:get', (data: {
                 nodes: Node[]
@@ -73,15 +83,33 @@ export const useMindmap = defineStore('mindmap', {
             socket.connect();
         },
         
+        joinRoom(roomId: string) {
+            socket.emit('room:join', roomId)
+        },
+        
+        leaveRoom() {
+            if (this.currentRoom) {
+                socket.emit('room:leave', this.currentRoom)
+            }
+        },
+        
+        getMindmap() {
+            if (this.currentRoom) {
+                socket.emit('mindmap:get', this.currentRoom)
+            }
+        },
+        
         addNode(node: Node) {
-            this.nodes.push(node)
-            console.log('node added', this.nodes);
+            if (!this.currentRoom) return
             
-            console.log('emitting addNode');
-            socket.emit('mindmap:addNode', node);
+            this.nodes.push(node)
+            
+            socket.emit('mindmap:addNode', { roomId: this.currentRoom, node });
         },
         
         addChildNode(parentNode: Node, position: XYPosition) {
+            if (!this.currentRoom) return
+            
             const id = nanoid();
             const newNode: Node = {
                 id,
@@ -92,7 +120,7 @@ export const useMindmap = defineStore('mindmap', {
             }
             
             this.nodes.push(newNode);
-            socket.emit('mindmap:addNode', newNode);
+            socket.emit('mindmap:addNode', { roomId: this.currentRoom, node: newNode });
             
             const newEdge: Edge = {
                 id: nanoid(),
@@ -105,16 +133,20 @@ export const useMindmap = defineStore('mindmap', {
         },
         
         addEdge(edge: Edge) {
+            if (!this.currentRoom) return
+            
             this.edges.push(edge)
             
-            socket.emit('mindmap:addEdge', edge);
+            socket.emit('mindmap:addEdge', { roomId: this.currentRoom, edge });
         },
         updateNodeLabel(nodeId: string, label: string) {
+            if (!this.currentRoom) return
+            
             const node = this.nodes.find((node: Node) => node.id === nodeId)
             if (!node) return
             node.data = { ...node.data, label }
             
-            socket.emit('mindmap:updateNodeLabel', { nodeId, label })
+            socket.emit('mindmap:updateNodeLabel', { roomId: this.currentRoom, nodeId, label })
         },
         reset() {
             this.nodes = []
@@ -122,17 +154,21 @@ export const useMindmap = defineStore('mindmap', {
         },
         
         onChanges(changes: any) {
+            if (!this.currentRoom) return
+            
             const filteredChanges = changes.filter((change: any) => change.type !== 'select')
-            socket.emit('mindmap:nodeChanges', filteredChanges);
+            socket.emit('mindmap:nodeChanges', { roomId: this.currentRoom, changes: filteredChanges });
         },
         
         onEdgeChanges(changes: any) {
+            if (!this.currentRoom) return
+            
             const filteredChanges = changes.filter((change: any) => change.type !== 'select' && change.type !== 'dimensions')
-            socket.emit('mindmap:edgeChanges', filteredChanges)
+            socket.emit('mindmap:edgeChanges', { roomId: this.currentRoom, changes: filteredChanges })
         },
         
         getNode(id: string): Node | undefined {
             return this.nodes.find((node) => node.id === id)
-        }
+        },
     }
 })

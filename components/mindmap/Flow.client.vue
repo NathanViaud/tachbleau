@@ -11,11 +11,15 @@ import {
 import { useMindmap } from '~/stores/mindmap.store';
 import { getChildNodePosition } from '~/utils/flow.utils';
 
-const { screenToFlowCoordinate } = useVueFlow();
+const props = defineProps<{
+    roomId: string
+}>();
 
+const { screenToFlowCoordinate } = useVueFlow();
 
 const mindmapStore = useMindmap();
 
+mindmapStore.joinRoom(props.roomId);
 mindmapStore.setup();
 
 function addNode() {
