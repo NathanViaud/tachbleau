@@ -1,0 +1,24 @@
+.vue-flow__node {
+    @apply rounded-lg;
+}
+
+.vue-flow__node.selected .node-card {
+    @apply border-primary;
+}
+
+.vue-flow__handle {
+    @apply size-3 bg-muted border-primary;
+}
+
+.vue-flow__nodesselection-rect,
+.vue-flow__selection {
+    @apply bg-primary/10 border-2 border-dashed border-primary rounded-lg;
+}
+
+.vue-flow__edge-path {
+    @apply stroke-muted stroke-2;
+}
+
+.vue-flow__edge.selected .vue-flow__edge-path {
+    @apply stroke-primary;
+}

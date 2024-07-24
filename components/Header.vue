@@ -49,6 +49,8 @@ const usersStore = useUsers();
                         </NuxtLink>
                     </Button>
 
+                    <NuxtLink to="/mindmap">Mindmap</NuxtLink>
+
                     <PopoverNotifs v-if="usersStore.currentUser" />
 
                     <DropdownMenu v-if="usersStore.currentUser">
