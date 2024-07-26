@@ -1,11 +1,9 @@
 <script lang="ts" setup>
-import { useUsers } from '~/stores/users.store';
-
-const usersStore = useUsers();
-
 definePageMeta({
     middleware: 'user-only'
 })
+
+const user = useUser();
 </script>
 
 <template>
@@ -21,7 +19,7 @@ definePageMeta({
                 description="Création, modification et suppression des projets"
                 toRoute="/projects"
             />
-            <indexCard v-if="usersStore.isAdmin"
+            <indexCard v-if="user?.role === 'admin'"
                 title="Gestion des membres de l'équipe" 
                 description="Création, modification et suppression d'un membre de l'équipe"
                 toRoute="/admin/users"
