@@ -1,9 +1,7 @@
-import { useUsers } from '~/stores/users.store';
-
 export default defineNuxtRouteMiddleware(async (_to, _from) => {
-    const usersStore = useUsers();
+    const user = useUser();
     
-    if (usersStore.currentUser) {
+    if (user.value) {
         return navigateTo({ name: "index" })
     }
 })

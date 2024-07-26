@@ -44,8 +44,6 @@ export class MindmapRepository {
                 }
             } else if (change.type === 'remove') {
                 mindmap.nodes = mindmap.nodes.filter((node) => node.id !== change.id);
-            } else {
-                console.log('type', change.type);
             }
         }
     }
@@ -57,8 +55,6 @@ export class MindmapRepository {
                 const source = change.source;
                 const target = change.target;
                 mindmap.edges = mindmap.edges.filter((edge) => !(edge.source === source && edge.target === target));
-            } else {
-                console.log('type', change.type);
             }
         }
     }

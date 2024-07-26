@@ -28,7 +28,6 @@ export class MindmapService {
     
     private joinRoom(roomId: string, socket: Socket) {
         socket.join(roomId);
-        console.log('joining room', roomId);
         socket.emit('room:joined', roomId);
     }
     

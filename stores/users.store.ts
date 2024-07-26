@@ -4,58 +4,18 @@ import { updateUser } from '~/services';
 
 interface UsersState {
     users: UserWithoutPassword[];
-    currentUser: UserWithoutPassword | null;
-    loggingIn: boolean;
-    error: 'invalid' | 'expired' | null;
 }
 
 export const useUsers = defineStore('users', {
     state: (): UsersState => ({
         users: [],
-        currentUser: null,
-        loggingIn: false,
-        error: null
     }),
     
-    getters: {
-        isAdmin: (state) => {
-            return state.currentUser && state.currentUser.role === 'admin'
-        }
-    },
-
     actions: {
-        async login(email: string, password: string) {
-            this.loggingIn = true;
-            try {
-                this.currentUser = await login(email, password);
-                if (this.currentUser) {
-                    await postToken(this.currentUser);
-                }
-                this.error = null;
-            } catch {
-                this.currentUser = null;
-                this.error = 'invalid';
-            }
-            this.loggingIn = false;
-        },
-
         async register(email: string, password: string, name: string, job: string, role: string) {
             const newUser = await register(email, password, name, job, role);
             if (!newUser) return;
             this.users.push(newUser);
-        },
-        
-        async logout() {
-            await logout();
-            
-            this.currentUser = null;
-            
-            const router = useRouter();
-            await router.push('/auth/login');
-        },
-        
-        async fetchCurrentUser(token: string) {
-            this.currentUser = await verifyToken(token);
         },
         
         async fetchUsers() {
@@ -79,11 +39,13 @@ export const useUsers = defineStore('users', {
             this.users = this.users.map(user => user._id === updatedUser._id ? updatedUser : user);
         },
         
-        async updateProfile(user: SimpleUpdateUser) {
-            const updatedUser = await simpleUpdateUser(user);
+        async updateProfile(userUpdate: SimpleUpdateUser) {
+            const user = useUser();
+            const updatedUser = await simpleUpdateUser(userUpdate);
             if (!updatedUser) return;
             
-            this.currentUser = updatedUser;
+            user.value = updatedUser;
+            
             this.users = this.users.map(user => user._id === updatedUser._id ? updatedUser : user);
         },
         

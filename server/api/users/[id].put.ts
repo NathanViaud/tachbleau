@@ -6,7 +6,6 @@ export default defineEventHandler(async (event) => {
     const body = await readValidatedBody(event, body => userNoPasswordSchema.safeParse(body));
     
     if(!body.success) {
-        console.log('body' + body.error);
         throw createError({
             statusCode: 400,
             statusMessage: 'Invalid body'

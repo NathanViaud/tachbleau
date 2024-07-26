@@ -5,9 +5,8 @@ import { useNotifications } from '~/stores/notifications.store';
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
     if (to.path !== '/auth/login') {
-        const token = useCookie('token');
-
-        if (!token.value) return;
+        const user = useUser();
+        if (!user.value) return;
         
         const usersStore = useUsers();
         const projectsStore = useProjects();
