@@ -30,14 +30,20 @@
     @apply max-h-[80%] !important;
 }
 
-.fc-daygrid-block-event {
+/* .fc-daygrid-block-event {
     @apply bg-primary border-0 !important;
-}
+} */
 
 .fc-event-title-container {
-    @apply text-background !important;
+    @apply text-black !important;
 }
 
 .fc-daygrid-dot-event {
     @apply bg-muted !important;
+}
+
+.custom-calendar {
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
 }

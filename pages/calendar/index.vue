@@ -28,7 +28,8 @@ if (projectsStore.projects) {
             title: project.title,
             start: project.startDate,
             end: project.endDate,
-            eventColor : 'purple',
+            color : nameToColor(project.title),
+            url: '/tasks/' + project._id,
         })
     }
 }
@@ -53,7 +54,6 @@ const calendarOptions = {
     ],
     initialView: 'dayGridMonth',
     // dateClick: handleDateClick,
-    eventColor: 'pink',
     displayEventTime: false,
     events: events,
     // eventDidMount: function(info) {
@@ -77,5 +77,7 @@ definePageMeta({
 
 </script>
 <template>
-    <FullCalendar :options="calendarOptions"/>
+    <div class="custom-calendar">
+        <FullCalendar :options="calendarOptions"/>    
+    </div>
 </template>
