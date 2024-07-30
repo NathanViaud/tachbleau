@@ -11,6 +11,9 @@ import {
 
 const colorMode = useColorMode();
 
+const projectsStore = useProjects();
+const tasksStore = useTasks();
+
 function toggleColorMode() {
     colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark';
 }
@@ -19,7 +22,11 @@ const user = useUser();
 
 async function logout() {
     await useFetch('/api/users/logout');
+
     user.value = null;
+    projectsStore.reset();
+    tasksStore.reset();
+
     await navigateTo('/auth/login');
 }
 

@@ -142,5 +142,13 @@ export const useTasks = defineStore('tasks', {
                 this.done = this.done.filter(task => task._id !== deletedTask._id);
             }
         },
+        
+        reset() {
+            this.resetFilters();
+            this.backlog = [];
+            this.todo = [];
+            this.doing = [];
+            this.done = [];
+        }
     }
 })
