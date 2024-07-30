@@ -42,7 +42,7 @@ function handleAdded(data: { id: string, status: Task['status'] }) {
     <div class="flex flex-col gap-4 h-full">
         <div class="flex gap-4 justify-between">
             <TaskFilter :remove-project-filter="filterProjectId" />
-            <Button as-child size="sm" class="w-fit self-end">
+            <Button as-child size="sm" class="w-fit self-end" e2e="newTask">
                 <RouterLink to="/tasks/create">
                     <Plus class="w-4 h-4 mr-2"/>
                     New task
