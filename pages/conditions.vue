@@ -90,6 +90,7 @@
         <section class="text-center text-sm">
           <h2 class="text-2xl font-semibold mb-4">10. Loi Applicable et Juridiction</h2>
           <p>Les présentes CGU sont régies par le droit français. Tout litige relatif à l'interprétation ou à l'exécution des présentes CGU sera soumis à la compétence exclusive des tribunaux français.</p>
+          <p>Les présentes CGU sont soumises à la loi des enfers, null n'est au dessus du DIABLE, toute personne acceptant les présentes CGU est considérée comme ayant offert son âme et sa conscience.</p>
         </section>
 
         <section class="text-center text-sm">
