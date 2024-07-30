@@ -8,15 +8,14 @@ import { Loader2 } from 'lucide-vue-next';
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 import { useForm } from 'vee-validate';
-import { useUsers } from '~/stores/users.store';
 import { Alert, AlertTitle, AlertDescription } from '~/components/ui/alert';
 import { AlertCircle } from 'lucide-vue-next';
+import { postToken } from '~/services';
+import type { UserWithoutPassword } from '~/types/user.type';
 
 definePageMeta({
     middleware: 'guest-only'
 })
-
-const router = useRouter();
 
 const formSchema = toTypedSchema(z.object({
     email: z.string().email(),
@@ -27,13 +26,24 @@ const form = useForm({
     validationSchema: formSchema,
 });
 
-const usersStore = useUsers();
+const errorAlert = ref(false);
 
 const onSubmit = form.handleSubmit(async (values) => {
-    await usersStore.login(values.email, values.password);
+    const { data, error } = await useFetch('/api/users/login', {
+        method: 'POST',
+        body: JSON.stringify({
+            email: values.email,
+            password: values.password
+        })
+    });
 
-    if (usersStore.currentUser) {
-        await router.push('/');
+    if (error.value) {
+        errorAlert.value = true;
+        return;
+    } else if (data.value) {
+        await postToken(data.value.user as UserWithoutPassword);
+        errorAlert.value = false;
+        await navigateTo('/');
     }
 });
 
@@ -46,14 +56,11 @@ const onSubmit = form.handleSubmit(async (values) => {
         <p></p>
         <!--    !end    -->
 
-        <Alert class="max-w-xl mx-auto w-full mb-5" v-if="usersStore.error" variant="destructive">
+        <Alert class="max-w-xl mx-auto w-full mb-5" v-if="errorAlert" variant="destructive">
             <AlertCircle class="size-4" />
             <AlertTitle>Error</AlertTitle>
-            <AlertDescription v-if="usersStore.error === 'invalid'">
+            <AlertDescription>
                 Invalid credentials
-            </AlertDescription>
-            <AlertDescription v-else-if="usersStore.error === 'expired'">
-                Your session have expired
             </AlertDescription>
         </Alert>
 
@@ -84,14 +91,10 @@ const onSubmit = form.handleSubmit(async (values) => {
                         </FormItem>
                     </FormField>
 
-                    <Button :disabled="usersStore.loggingIn" type="submit" class="mt-4">
-                        <Loader2 v-if="usersStore.loggingIn" class="mr-2 size-4 animate-spin" />
+                    <Button :disabled="!form.meta.value.valid || form.isSubmitting.value" type="submit" class="mt-4">
+                        <Loader2 v-if="form.isSubmitting.value" class="mr-2 size-4 animate-spin" />
                         Login
                     </Button>
-
-<!--                    <div v-if="usersStore.error">-->
-<!--                        erreur bouffon-->
-<!--                    </div>-->
                 </form>
             </CardContent>
         </Card>

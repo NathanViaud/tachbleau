@@ -27,7 +27,6 @@ const data = computed(() => {
       if (item) {
         item.y += task.duration;
       } else {
-        console.log(task.duration);
         res.push({
           x: Array.from(assignedTos).indexOf(task.assignedTo) + 1,
           y: task.duration,

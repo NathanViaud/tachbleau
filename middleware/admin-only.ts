@@ -1,8 +1,8 @@
 import { useUsers } from '~/stores/users.store';
 
 export default defineNuxtRouteMiddleware(async (_to, from) => {
-    const usersStore = useUsers();
+    const user = useUser();
     
-    if (!usersStore.currentUser) return navigateTo({ name: "auth-login" });
-    if (!usersStore.isAdmin) return navigateTo({ name: "index" })
+    if (!user.value) return navigateTo({ name: "auth-login" });
+    else if (!(user.value.role === 'admin')) return navigateTo({ name: "index" })
 });

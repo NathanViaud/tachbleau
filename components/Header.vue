@@ -1,21 +1,13 @@
 <script setup lang="ts">
 import { SquareKanban, UsersRound, LogOut, Sun, Moon, Folders, UserRound } from "lucide-vue-next"
-import { useUsers } from '~/stores/users.store';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '~/components/ui/dropdown-menu'
-import Notifs from '~/components/popover/notifs.vue';
 
 const colorMode = useColorMode();
 
@@ -23,7 +15,13 @@ function toggleColorMode() {
     colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark';
 }
 
-const usersStore = useUsers();
+const user = useUser();
+
+async function logout() {
+    await useFetch('/api/users/logout');
+    user.value = null;
+    await navigateTo('/auth/login');
+}
 
 </script>
 
@@ -38,24 +36,24 @@ const usersStore = useUsers();
             </Button>
 
             <div class="flex flex-1 justify-end flex-row items-center gap-3 ">
-                    <Button v-if="usersStore.currentUser" variant="ghost" size="icon" class="size-14 rounded-full" as-child>
+                    <Button v-if="user" variant="ghost" size="icon" class="size-14 rounded-full" as-child>
                         <NuxtLink to="/kanban">
                             <SquareKanban />
                         </NuxtLink>
                     </Button>
-                    <Button v-if="usersStore.currentUser" variant="ghost" size="icon" class="size-14 rounded-full" as-child>
+                    <Button v-if="user" variant="ghost" size="icon" class="size-14 rounded-full" as-child>
                         <NuxtLink to="/projects">
                             <Folders />
                         </NuxtLink>
                     </Button>
 
-                    <PopoverNotifs v-if="usersStore.currentUser" />
+                    <PopoverNotifs v-if="user" />
 
-                    <DropdownMenu v-if="usersStore.currentUser">
+                    <DropdownMenu v-if="user">
                         <DropdownMenuTrigger as-child>
                             <Button size="icon" variant="ghost" class="rounded-full size-14">
-                                <Avatar :style="`background-color: ${nameToColor(usersStore.currentUser.name)}`">
-                                    <AvatarFallback class="text-black text-lg">{{ usersStore.currentUser.name.substring(0, 2) }}</AvatarFallback>
+                                <Avatar :style="`background-color: ${nameToColor(user.name)}`">
+                                    <AvatarFallback class="text-black text-lg">{{ user.name.substring(0, 2) }}</AvatarFallback>
                                 </Avatar>
                             </Button>
                         </DropdownMenuTrigger>
@@ -69,8 +67,8 @@ const usersStore = useUsers();
                                 </NuxtLink>
                             </DropdownMenuItem>
 
-                            <DropdownMenuSeparator v-if="usersStore.isAdmin" />
-                            <DropdownMenuItem as-child v-if="usersStore.isAdmin">
+                            <DropdownMenuSeparator v-if="user.role === 'admin'" />
+                            <DropdownMenuItem as-child v-if="user.role === 'admin'">
                                 <NuxtLink to="/admin/users" class="flex">
                                     <UsersRound class="size-4 mr-2" />
                                     <span>Team</span>
@@ -78,7 +76,7 @@ const usersStore = useUsers();
                             </DropdownMenuItem>
 
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem @click="usersStore.logout">
+                            <DropdownMenuItem @click="logout">
                                 <LogOut class="size-4 mr-2" />
                                 <span>Log out</span>
                             </DropdownMenuItem>

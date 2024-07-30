@@ -8,7 +8,6 @@ export default defineEventHandler(async (event) => {
   try {
     const body = await readValidatedBody(event, body => loginSchema.safeParse(body));
     if (!body.success) {
-      console.log( "body" + body.error);
       throw createError({
         statusCode: 400,
         statusMessage: 'Invalid body'
@@ -20,7 +19,6 @@ export default defineEventHandler(async (event) => {
     const validCredentials = user ? await verifyPassword(password, user.password) : false
     
     if (!validCredentials) {
-      console.log('Inalid email or password');
       throw createError({
         statusCode: 401,
         statusMessage: 'Invalid email or password'
