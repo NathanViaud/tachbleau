@@ -47,14 +47,13 @@ async function logout() {
                         </NuxtLink>
                     </Button>
 
-                    <PopoverNotifs v-if="user" />
                     <Button v-if="user" variant="ghost" size="icon" class="size-14 rounded-full" as-child>
                         <NuxtLink to="/calendar">
                             <calendar-days />
                         </NuxtLink>
                     </Button>
 
-                    <PopoverNotifs v-if="usersStore.currentUser" />
+                    <PopoverNotifs v-if="user" />
 
                     <DropdownMenu v-if="user">
                         <DropdownMenuTrigger as-child>
