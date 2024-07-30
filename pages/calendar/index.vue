@@ -6,19 +6,9 @@ import { useProjects } from '~/stores/projects.store';
 import { useUsers } from '~/stores/users.store';
 import { useTasks } from '~/stores/tasks.store';
 
-// Récupérer le current user 
 const usersStore = useUsers();
 const projectsStore = useProjects();
 const tasksStore = useTasks();
-
-// function getRandomColor() {
-//   const letters = '0123456789ABCDEF';
-//   let color = '#';
-//   for (let i = 0; i < 6; i++) {
-//     color += letters[Math.floor(Math.random() * 16)];
-//   }
-//   return color;
-// }
 
 let events: any[] = []
 
@@ -29,6 +19,7 @@ if (projectsStore.projects) {
             start: project.startDate,
             end: project.endDate,
             color : nameToColor(project.title),
+            borderColor : "white",
             url: '/tasks/' + project._id,
         })
     }
@@ -41,6 +32,7 @@ if (tasksStore.tasks && usersStore.currentUser) {
                 description : task.description,
                 date: task.deadline,
                 allDay: false,
+                color : nameToColor(task.title),
             })
         }
     }
