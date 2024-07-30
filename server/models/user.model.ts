@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
     name: { type: String, required: false },
     role: { type: String, required: false },
     job: { type: String, required: false },
+    projects: { type: Array, required: false },
 });
 
 userSchema.plugin(uniqueValidator);

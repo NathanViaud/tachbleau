@@ -6,6 +6,7 @@ export type User = {
     role: string;
     job: string;
     id: string;
+    projects?: string[];
 };
 
 export interface UserInput {
@@ -19,6 +20,7 @@ export interface UserWithoutPassword {
     name: string;
     role: 'user' | 'admin';
     job: string;
+    projects?: string[];
 }
 
 export type UpdateUser = Omit<UserWithoutPassword, '_id'>

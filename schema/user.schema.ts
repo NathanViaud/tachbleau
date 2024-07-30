@@ -7,6 +7,7 @@ export const userSchema = z.object({
     role: z.enum(['user', 'admin']).default('user'),
     job: z.string(),
     id: z.string().optional(),
+    projects: z.array(z.string()).optional(),
 });
 
 export const simpleUserUpdate = z.object({
