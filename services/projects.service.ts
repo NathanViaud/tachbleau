@@ -81,3 +81,23 @@ export async function deleteProject(id: string): Promise<Project | null> {
         return null;
     }
 }
+
+export async function addUserToProject(id: string, userId: string): Promise<boolean> {
+    try {
+        await axios.post(`${API_URL}/addUser`, { id, userId });
+        
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+export async function removeUserFromProject(id: string, userId: string): Promise<boolean> {
+    try {
+        await axios.post(`${API_URL}/removeUser`, { id, userId });
+        
+        return true;
+    } catch {
+        return false;
+    }
+}

@@ -3,7 +3,6 @@ export default defineEventHandler(async (event) => {
         { url: '/api/users/.*', method: 'DELETE' },
         { url: '/api/users/.*', method: 'PUT' },
         { url: '/api/users', method: 'POST' },
-        { url: '/api/projects/addUser', method: 'POST' },
     ]
     const userRoutes = [
         // Projects
@@ -12,6 +11,8 @@ export default defineEventHandler(async (event) => {
         { url: '/api/projects/.*', method: 'PUT' },
         { url: '/api/projects/create', method: 'POST' },
         { url: '/api/projects', method: 'GET' },
+        { url: '/api/projects/addUser', method: 'POST' },
+        { url: '/api/projects/removeUser', method: 'POST' },
         
         // Tasks
         { url: '/api/tasks/.*', method: 'DELETE' },
