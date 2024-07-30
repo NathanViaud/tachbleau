@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
         if (!user.projects) {
             user.projects = [];
         }
-        user.projects.push(project._id);
+        user.projects = user.projects.filter(projectId => projectId !== project._id);
         await user.save();
         
         return { user }

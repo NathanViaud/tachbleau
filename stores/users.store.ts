@@ -1,5 +1,12 @@
 import type { SimpleUpdateUser, UpdateUser, UserWithoutPassword } from '~/types/user.type';
-import { deleteUser, getUsers, login, logout, postToken, register, simpleUpdateUser, verifyToken } from '~/services';
+import {
+    addUserToProject,
+    deleteUser,
+    getUsers,
+    register,
+    removeUserFromProject,
+    simpleUpdateUser,
+} from '~/services';
 import { updateUser } from '~/services';
 
 interface UsersState {
@@ -51,6 +58,24 @@ export const useUsers = defineStore('users', {
         
         getUser(id: string) {
             return this.users.find(user => user._id === id);
+        },
+        
+        async addToProject(userId: string, projectId: string) {
+            const success = await addUserToProject(projectId, userId);
+            if (!success) return;
+            
+            this.users.find((user) => user._id === userId)?.projects?.push(projectId)
+        },
+        
+        async removeFromProject(userId: string, projectId: string) {
+            const success = await removeUserFromProject(projectId, userId);
+            if (!success) return;
+            
+            const user = this.users.find((user) => user._id === userId);
+            
+            if (!user) return;
+            
+            user.projects = user?.projects?.filter(project => project !== projectId);
         }
     }
 })
