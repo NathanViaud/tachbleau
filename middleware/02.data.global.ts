@@ -14,9 +14,9 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         const notificationsStore = useNotifications();
         
         if (!tasksStore.tasks || !tasksStore.tasks.length) tasksStore.fetchTasks();
-        if (!projectsStore.projects.length) projectsStore.fetchProjects();
-        if (!usersStore.users.length) usersStore.fetchUsers();
-        if (!notificationsStore.notifications.length) notificationsStore.fetchNotifications();
+        if (!projectsStore.projects || !projectsStore.projects.length) projectsStore.fetchProjects();
+        if (!usersStore.users || !usersStore.users.length) usersStore.fetchUsers();
+        if (!notificationsStore.notifications || !notificationsStore.notifications.length) notificationsStore.fetchNotifications();
         
         return;
     }
