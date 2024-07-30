@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
         }
         const fullUser = await User.findById(user.id);
         return {
-            projects: projects.filter(project => fullUser.projects?.includes(project._id) ?? false)
+            projects: projects.filter(project => fullUser?.projects?.includes(project._id) ?? false)
         }
     } catch {
         throw createError({
