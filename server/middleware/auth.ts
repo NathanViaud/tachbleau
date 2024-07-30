@@ -2,6 +2,7 @@ import type { JwtPayload } from 'jsonwebtoken';
 import { User } from '~/server/models/user.model';
 
 export default defineEventHandler(async (event) => {
+
    const token = getCookie(event, 'token');
    
    if (!token) {
