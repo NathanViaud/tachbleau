@@ -1,7 +1,7 @@
 
 <template>
-  <div class="min-h-screen bg-gray-100 py-10">
-    <div class="container mx-auto bg-white p-6 rounded-lg shadow-md">
+  <div class="min-h-screen py-10">
+    <div class="container mx-auto p-6">
       <h1 class="text-center text-3xl font-bold mb-8">Conditions générales d'utilisation</h1>
       <div class="flex flex-col gap-6">
         <section class="text-center text-sm">
