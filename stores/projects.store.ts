@@ -80,6 +80,10 @@ export const useProjects = defineStore('projects', {
                 tasks: totalTasks,
                 done: doneTasks.length
             }
+        },
+        
+        reset() {
+            this.projects = [];
         }
     }
 })

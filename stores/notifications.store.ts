@@ -15,6 +15,9 @@ export const useNotifications = defineStore('notifications', {
     
     getters: {
         unreadNotifications(): Notification[] {
+            if (!this.notifications) {
+                return [];
+            }
             return this.notifications.filter(notification => !notification.read);
         }
     },
@@ -22,8 +25,14 @@ export const useNotifications = defineStore('notifications', {
     actions: {
         async fetchNotifications() {
             this.loading = true;
-            this.notifications = await getNotifications();
-            this.loading = false
+            try {
+                this.notifications = await getNotifications();
+            } catch (error) {
+                console.error('Failed to fetch notifications:', error);
+                this.notifications = []; // Assurez-vous que notifications est un tableau vide en cas d'erreur
+            } finally {
+                this.loading = false;
+            }
         },
         
         async readNotifications() {
