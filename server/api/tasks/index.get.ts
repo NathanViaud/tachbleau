@@ -8,7 +8,6 @@ export default defineEventHandler(async (event) => {    try {
     const projects = await Project.find();
     const token = getCookie(event, 'token');
     const tasks = await Task.find();
-    console.log(tasks);
     if (!token) {
         throw createError({
             statusCode: 401,
