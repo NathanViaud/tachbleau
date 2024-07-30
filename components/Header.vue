@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SquareKanban, UsersRound, LogOut, Sun, Moon, Folders, UserRound, CalendarDays } from "lucide-vue-next"
+import { SquareKanban, UsersRound, LogOut, Sun, Moon, Folders, UserRound, CalendarDays, Info } from "lucide-vue-next"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,7 +7,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  InfoCircle
 } from '~/components/ui/dropdown-menu'
 
 const colorMode = useColorMode();
@@ -93,7 +92,7 @@ async function logout() {
                             <DropdownMenuSeparator/>
                             <DropdownMenuItem as-child>
                                 <NuxtLink to="/conditions" class="flex">
-                                    <InfoCircle class="size-4 mr-2" />
+                                    <Info class="size-4 mr-2" />
                                     <span>Conditions</span>
                                 </NuxtLink>
                             </DropdownMenuItem>
