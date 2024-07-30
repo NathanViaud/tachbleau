@@ -7,6 +7,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  InfoCircle
 } from '~/components/ui/dropdown-menu'
 
 const colorMode = useColorMode();
@@ -67,11 +68,20 @@ async function logout() {
                                 </NuxtLink>
                             </DropdownMenuItem>
 
+
                             <DropdownMenuSeparator v-if="user.role === 'admin'" />
                             <DropdownMenuItem as-child v-if="user.role === 'admin'">
                                 <NuxtLink to="/admin/users" class="flex">
                                     <UsersRound class="size-4 mr-2" />
                                     <span>Team</span>
+                                </NuxtLink>
+                            </DropdownMenuItem>
+
+                            <DropdownMenuSeparator/>
+                            <DropdownMenuItem as-child>
+                                <NuxtLink to="/conditions" class="flex">
+                                    <InfoCircle class="size-4 mr-2" />
+                                    <span>Conditions</span>
                                 </NuxtLink>
                             </DropdownMenuItem>
 
