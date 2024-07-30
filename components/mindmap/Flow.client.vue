@@ -57,6 +57,10 @@ function endConnect(event: MouseEvent) {
     const position = getChildNodePosition(panePosition, parentNode)
     mindmapStore.addChildNode(parentNode, position)
 }
+
+function onPaneReady(vueFlowInstance: any) {
+    vueFlowInstance.fitView();
+}
 </script>
 
 <template>
@@ -69,6 +73,7 @@ function endConnect(event: MouseEvent) {
         class="flow"
         @connect-end="endConnect"
         @connect-start="startConnect"
+        @pane-ready="onPaneReady"
     >
         <Background />
         <template #node-custom="props">
