@@ -4,6 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { useProjects } from '~/stores/projects.store';
 import { useTasks } from '~/stores/tasks.store';
+import { useRouter } from 'vue-router';
 
 definePageMeta({
     middleware: 'user-only',
@@ -12,6 +13,7 @@ definePageMeta({
 const projectsStore = useProjects();
 const tasksStore = useTasks();
 const user = useUser();
+const router = useRouter();
 
 const events = computed(() => {
     const newEvents = [];
@@ -27,15 +29,17 @@ const events = computed(() => {
             });
         }
     }
+
     if (tasksStore.tasks && user.value) {
         for (const task of tasksStore.tasks) {
+            const project = projectsStore.projects.find(project => project._id === task.project)
             if (task.assignedTo === user.value._id) {
                 newEvents.push({
                     title: task.title,
                     description: task.description,
                     date: task.deadline,
                     allDay: false,
-                    color: nameToColor(task.title),
+                    color: nameToColor(project.title),
                 });
             }
         }
@@ -49,11 +53,17 @@ const calendarOptions = computed(() => {
             dayGridPlugin,
             interactionPlugin
         ],
+        dateClick: handleDateClick,
         initialView: 'dayGridMonth',
         displayEventTime: false,
         events: events.value,
     }
 });
+
+function handleDateClick() {
+    router.push('/tasks/create'); // Redirige vers /tasks/create
+}
+
 </script>
 
 <template>
