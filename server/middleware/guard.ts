@@ -3,6 +3,7 @@ export default defineEventHandler(async (event) => {
         { url: '/api/users/.*', method: 'DELETE' },
         { url: '/api/users/.*', method: 'PUT' },
         { url: '/api/users', method: 'POST' },
+        { url: '/api/projects/addUser', method: 'POST' },
     ]
     const userRoutes = [
         // Projects
