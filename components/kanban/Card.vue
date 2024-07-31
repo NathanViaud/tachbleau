@@ -32,19 +32,6 @@ function onSubmit() {
 const usersStore = useUsers();
 const assignedUser = computed(() => (props.task && props.task.assignedTo) ? usersStore.getUser(props.task.assignedTo) : null);
 
-// const emit = defineEmits<{
-//   (e: 'deleteTask', taskId: string): void;
-// }>();
-
-// function onDeleteTask() {
-//   if (confirm('Are you sure you want to delete this task?')) {
-//     emit('deleteTask', props.task._id);
-//   }
-// }
-
-// function deleteTask(taskId: string) {
-//   tasksStore.deleteTask(taskId);
-// }
 </script>
 
 <template>
@@ -67,7 +54,7 @@ const assignedUser = computed(() => (props.task && props.task.assignedTo) ? user
                     </CardTitle>
 
                     <CardDescription class="flex w-full justify-between">
-                        <p class="flex items-center gap-1" :class="{ 'text-red-500' : isDateInPast(task.deadline) }">
+                        <p class="flex items-center gap-1" :class="{ 'text-red-500' : isDateInPast(task.deadline) && task.status !== 'done' }">
                             <Calendar class="h-4 w-4" />
                             {{ getRelativeDate(task.deadline) }}
                         </p>
