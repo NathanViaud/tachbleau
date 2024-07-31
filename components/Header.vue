@@ -43,7 +43,7 @@ async function logout() {
             </Button>
 
             <div class="flex flex-1 justify-end flex-row items-center gap-3 ">
-                    <Button v-if="user" variant="ghost" size="icon" class="size-14 rounded-full" as-child>
+                    <Button v-if="user" variant="ghost" size="icon" class="size-14 rounded-full" e2e="kanban" as-child >
                         <NuxtLink to="/kanban">
                             <SquareKanban />
                         </NuxtLink>
@@ -64,7 +64,7 @@ async function logout() {
 
                     <DropdownMenu v-if="user">
                         <DropdownMenuTrigger as-child>
-                            <Button size="icon" variant="ghost" class="rounded-full size-14">
+                            <Button size="icon" variant="ghost" class="rounded-full size-14" e2e="avatar-user">
                                 <Avatar :style="`background-color: ${nameToColor(user.name)}`">
                                     <AvatarFallback class="text-black text-lg">{{ user.name.substring(0, 2) }}</AvatarFallback>
                                 </Avatar>
@@ -100,7 +100,7 @@ async function logout() {
                             <DropdownMenuSeparator />
                             <DropdownMenuItem @click="logout">
                                 <LogOut class="size-4 mr-2" />
-                                <span>Log out</span>
+                                <span e2e="logout">Log out</span>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>

@@ -75,7 +75,7 @@ const onSubmit = form.handleSubmit(async (values) => {
                         <FormItem>
                             <FormLabel>Email</FormLabel>
                             <FormControl>
-                                <Input type="email" placeholder="Email" v-bind="componentField" />
+                                <Input type="email" placeholder="Email" v-bind="componentField" e2e="email" />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -85,7 +85,7 @@ const onSubmit = form.handleSubmit(async (values) => {
                         <FormItem>
                             <FormLabel>Password</FormLabel>
                             <FormControl>
-                                <Input type="password" placeholder="Password" v-bind="componentField" />
+                                <Input type="password" placeholder="Password" v-bind="componentField" e2e="password" />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

@@ -22,7 +22,7 @@ const router = useRouter();
 <template>
     <div class="flex flex-col gap-5">
     <h1 class="text-center">Users</h1>
-        <Button as-child class="w-fit self-end">
+        <Button as-child class="w-fit self-end" e2e="new-user">
             <RouterLink to="/admin/users/create">
                 <Plus class="mr-2 h-4 w-4" />
                 New user
@@ -40,11 +40,12 @@ const router = useRouter();
             </TableHeader>
             <TableBody>
                 <TableRow v-for="user in usersStore.users" :key="user._id">
-                    <TableCell>{{ user.name }}</TableCell>
-                    <TableCell>{{ user.job }}</TableCell>
-                    <TableCell>{{ user.role }}</TableCell>
+                    <TableCell :e2e="`user-name-${user.name}`">{{ user.name }}</TableCell>
+                    <TableCell :e2e="`user-job-${user.name}`">{{ user.job }}</TableCell>
+                    <TableCell :e2e="`user-role-${user.name}`">{{ user.role }}</TableCell>
                     <TableCell class="flex gap-2">
                         <Button
+                            :e2e="`edit-user-${user.name}`"
                             @click="router.push(`/admin/users/${user._id}`)"
                             variant="secondary"
                             size="icon"
@@ -52,6 +53,7 @@ const router = useRouter();
                             <Pencil />
                         </Button>
                         <Button
+                            :e2e="`delete-user-${user.name}`"
                             @click="usersStore.deleteUser(user._id)"
                             variant="destructive"
                             size="icon"
