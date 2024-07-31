@@ -12,7 +12,7 @@
                       </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                      <AlertDialogAction @click="acceptCookies">Accepter</AlertDialogAction>
+                      <AlertDialogAction e2e="accepte-cookies" @click="acceptCookies">Accepter</AlertDialogAction>
                       <!--                  <Button @click="acceptCookies">Accepter</Button>-->
                       <NuxtLink to="/conditions">
                           <Button variant="outline">Plus d'informations</Button>
