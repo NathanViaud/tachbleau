@@ -16,7 +16,11 @@ export default defineEventHandler(async (event) => {
         if (!user.projects) {
             user.projects = [];
         }
-        user.projects = user.projects.filter(projectId => projectId !== project._id);
+        
+        const projectIdString = project._id.toString();
+        const index = user.projects.findIndex(project => project._id.toString() === projectIdString);
+        user.projects.splice(index, 1);
+        
         await user.save();
         
         return { user }
