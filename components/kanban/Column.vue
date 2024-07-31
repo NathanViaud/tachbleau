@@ -40,7 +40,6 @@ function handleChange(evt: any) {
             <h2>{{ name }}</h2>
         </div>
 
-        <ScrollArea class="h-full">
             <draggable
                 class="flex flex-grow flex-col mt-4 gap-3 overflow-y-auto"
                 :list="tasks"
@@ -54,7 +53,6 @@ function handleChange(evt: any) {
                     </div>
                 </template>
             </draggable>
-        </ScrollArea>
     </div>
 
     <Skeleton v-else class="w-1/4 h-full rounded"/>
