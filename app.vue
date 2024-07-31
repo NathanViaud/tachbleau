@@ -1,7 +1,7 @@
 <template>
-    <div class="min-h-screen flex flex-col">
+    <div class="h-full flex flex-col">
       <Header />
-      <NuxtPage class="flex-grow p-4"/>
+      <NuxtPage class="p-4"/>
       <ClientOnly>
           <AlertDialog :open="showCookieConsent && route.path !== '/conditions'" @update:open="showCookieConsent = $event">
               <AlertDialogContent>
