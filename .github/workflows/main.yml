@@ -50,9 +50,13 @@ jobs:
               id: lowercase
               run: echo "::set-output name=owner::$(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')"
 
+            - name: Convert repository name to lowercase
+              id: repo-lowercase
+              run: "echo ::set-output name=repo::$(echo ${{ github.event.repository.name }} | tr '[:upper:]' '[:lower:]')"
+
             - name: Build and push Docker image
               uses: docker/build-push-action@v2
               with:
                   context: .
                   push: true
-                  tags: ghcr.io/${{ steps.lowercase.outputs.owner }}/${{ github.event.repository.name }}:latest
+                  tags: ghcr.io/${{ steps.lowercase.outputs.owner }}/${{ steps.repo-lowercase.outputs.repo }}:latest
