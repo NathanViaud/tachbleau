@@ -1,15 +1,16 @@
-import { userSchema } from '~/schema';
-import { User } from '~/server/models/user.model';
-import bcrypt from 'bcryptjs';
+import { userSchema } from "~/schema";
+import { User } from "~/server/models/user.model";
+import bcrypt from "bcryptjs";
 
 export default defineEventHandler(async (event) => {
-    const body = await readValidatedBody(event, body => userSchema.safeParse(body));
+    const body = await readValidatedBody(event, (body) => userSchema.safeParse(body));
     if (!body.success) {
         throw createError({
             statusCode: 400,
-            statusMessage: 'Invalid body'
+            statusMessage: "Invalid body",
         });
     }
+
     try {
         const password = await bcrypt.hash(body.data.password, 10);
         const user = new User({
@@ -21,10 +22,11 @@ export default defineEventHandler(async (event) => {
         });
         await user.save();
         return { user };
-    } catch {
+    } catch (e) {
+        console.log("error", e);
         throw createError({
             statusCode: 500,
-            statusMessage: 'Failed to create user.'
+            statusMessage: "Failed to create user.",
         });
     }
 });
