@@ -33,6 +33,7 @@ export default defineEventHandler(async (event) => {
         { url: "/api/users/token", method: "POST" },
         { url: "/api/users/token/verify", method: "GET" },
         { url: "/api/users/admin", method: "GET" },
+        { url: "/api/users/admin", method: "POST" },
     ];
     if (event.path.startsWith("/api")) {
         const isGuestRoute = guestRoutes.find(
