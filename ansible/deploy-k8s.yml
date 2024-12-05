@@ -83,3 +83,18 @@
         kubernetes.core.k8s:
             state: present
             definition: "{{ lookup('file', 'node-exporter-service.yml') }}"
+
+      - name: Create hpa
+        kubernetes.core.k8s:
+            state: present
+            definition: "{{ lookup('file', 'hpa.yml') }}"
+
+      # - name: install loki
+      #   kubernetes.core.k8s:
+      #       state: present
+      #       definition: "{{ lookup('file', 'loki-helm.yml') }}"
+
+      - name: Create promtail config
+        kubernetes.core.k8s:
+            state: present
+            definition: "{{ lookup('file', 'promtail-config.yml') }}"

@@ -1,4 +1,4 @@
-- name: Install K3s on Ubuntu
+- name: Install k3s on Ubuntu
   hosts: vm
   become: yes
   tasks:
@@ -9,23 +9,38 @@
       - name: Install dependencies
         ansible.builtin.apt:
             name:
-                - curl
-                - apt-transport-https
-                - ca-certificates
+                - iptables
+                - conntrack
                 - python3-pip
-                - docker.io
             state: present
 
-      - name: Enable docker service
-        ansible.builtin.systemd:
-            name: docker
-            enabled: yes
-
-      - name: Download and install Minikube
-        ansible.builtin.shell: |
-            curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-arm64 && sudo install minikube-linux-arm64 /usr/local/bin/minikube && rm minikube-linux-arm64
+      - name: Download & install k3s
+        shell: |
+            curl -sfL https://get.k3s.io | sh -
         args:
             executable: /bin/bash
+        environment:
+            INSTALL_K3S_EXEC: "--disable traefik"
 
-      - name: Start Minikube
-        ansible.builtin.shell: minikube start --driver=none
+      - name: Launch k3s
+        systemd:
+            name: k3s
+            state: started
+            enabled: yes
+
+      - name: Wait for K3s to be ready
+        shell: |
+            kubectl wait --for=condition=ready node --all
+        register: k3s_status
+        retries: 10
+        delay: 10
+        until: k3s_status.rc == 0
+
+      - name: Disable ufw
+        ansible.builtin.systemd:
+            name: ufw
+            enabled: no
+            state: stopped
+
+      # - name: Change config authorization
+      #   shell:
