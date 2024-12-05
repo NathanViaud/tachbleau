@@ -1,0 +1,31 @@
+- name: Install K3s on Ubuntu
+  hosts: vm
+  become: yes
+  tasks:
+      - name: Update APT cache
+        ansible.builtin.apt:
+            update_cache: yes
+
+      - name: Install dependencies
+        ansible.builtin.apt:
+            name:
+                - curl
+                - apt-transport-https
+                - ca-certificates
+                - python3-pip
+                - docker.io
+            state: present
+
+      - name: Enable docker service
+        ansible.builtin.systemd:
+            name: docker
+            enabled: yes
+
+      - name: Download and install Minikube
+        ansible.builtin.shell: |
+            curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-arm64 && sudo install minikube-linux-arm64 /usr/local/bin/minikube && rm minikube-linux-arm64
+        args:
+            executable: /bin/bash
+
+      - name: Start Minikube
+        ansible.builtin.shell: minikube start --driver=none

@@ -1,0 +1,85 @@
+---
+- name: Deploy Kubernetes Resources
+  hosts: local
+  tasks:
+      - name: Create monitoring namespace
+        k8s:
+            name: monitoring
+            api_version: v1
+            kind: Namespace
+            state: present
+
+      - name: Create MongoDB PersistentVolumeClaim
+        kubernetes.core.k8s:
+            state: present
+            definition: "{{ lookup('file', 'mongo-pvc.yml') }}"
+
+      - name: Deploy MongoDB
+        kubernetes.core.k8s:
+            state: present
+            definition: "{{ lookup('file', 'mongo-deployment.yml') }}"
+
+      - name: Deploy app
+        kubernetes.core.k8s:
+            state: present
+            definition: "{{ lookup('file', 'app-deployment.yml') }}"
+
+      - name: Create app service
+        kubernetes.core.k8s:
+            state: present
+            definition: "{{ lookup('file', 'app-service.yml') }}"
+
+      - name: Create mongo service
+        kubernetes.core.k8s:
+            state: present
+            definition: "{{ lookup('file', 'mongo-service.yml') }}"
+
+      # - name: Create app ingress
+      #   kubernetes.core.k8s:
+      #       state: present
+      #       definition: "{{ lookup('file', 'app-ingress.yml') }}"
+
+      - name: Create Grafana Deployment
+        kubernetes.core.k8s:
+            state: present
+            definition: "{{ lookup('file', 'grafana-deployment.yml') }}"
+
+      - name: Create Grafana Service
+        kubernetes.core.k8s:
+            state: present
+            definition: "{{ lookup('file', 'grafana-service.yml') }}"
+
+      - name: Create Grafana Ingress
+        kubernetes.core.k8s:
+            state: present
+            definition: "{{ lookup('file', 'grafana-ingress.yml') }}"
+
+      - name: Create Prometheus Deployment
+        kubernetes.core.k8s:
+            state: present
+            definition: "{{ lookup('file', 'prometheus-deployment.yml') }}"
+
+      - name: Create Prometheus ConfigMap
+        kubernetes.core.k8s:
+            state: present
+            definition: "{{ lookup('file', 'prometheus-config.yml') }}"
+
+      - name: Create Prometheus Service
+        kubernetes.core.k8s:
+            state: present
+            definition: "{{ lookup('file', 'prometheus-service.yml') }}"
+
+      - name: Create Prometheus Ingress
+        kubernetes.core.k8s:
+            state: present
+            definition: "{{ lookup('file', 'prometheus-ingress.yml') }}"
+
+      - name: Create node-exporter DaemonSet
+        kubernetes.core.k8s:
+            state: present
+            definition: "{{ lookup('file', 'node-exporter-daemonset.yml') }}"
+
+      - name: Create node-exporter service
+        kubernetes.core.k8s:
+            state: present
+            definition: "{{ lookup('file', 'node-exporter-service.yml') }}"

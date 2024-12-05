@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: app
+    namespace: default
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: app
+    template:
+        metadata:
+            labels:
+                app: app
+        spec:
+            containers:
+                - name: app
+                  image: ghcr.io/nathanviaud/tachbleau@sha256:10ffc5735fb061ee920a417b0696441016b1e4bda1d16ab6383ca0fd15bd2da0
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: 3000
+                  env:
+                      - name: MONGODB_URI
+                        value: mongodb://mongo-service.default.svc.cluster.local:27017/tachbleau
+                      - name: TOKEN_SECRET
+                        value: "987e5c040a1f208254d858fa310026858cfabcb252ed1306bcdd4cf966fae3d1134b7a487a4422374fe099577e391b3c4b316acd975fafd8ffc936bef461e680"
+                      - name: TOKEN_EXPIRES
+                        value: 1h
+                      - name: TOKEN_NAME
+                        value: my_token
+
+                  resources:
+                      limits:
+                      memory: "512Mi"
+                      cpu: "500m"
+                      requests:
+                          memory: "256Mi"
+                          cpu: "250m"
